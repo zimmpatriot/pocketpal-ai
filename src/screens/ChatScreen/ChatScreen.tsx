@@ -288,11 +288,7 @@ export const ChatScreen: React.FC = observer(() => {
           onEffortCycle: handleEffortCycle,
         }}
         textInputProps={{
-          placeholder: !modelStore.engine
-            ? modelStore.isContextLoading
-              ? l10n.chat.loadingModel
-              : l10n.chat.modelNotLoaded
-            : l10n.chat.typeYourMessage,
+          placeholder: "Ask S.A.M. anything...",
         }}
       />
       {uiStore.chatWarning && (
