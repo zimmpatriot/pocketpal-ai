@@ -23,8 +23,15 @@ export function shouldUseRAG(query: string): boolean {
     'navi', 'compass', 'signal', 'evasion', 'trap', 'food', 'plant',
     'snake', 'insect', 'heat', 'dehydrat', 'tourniquet', 'dressing',
     'splint', 'cpr', 'breath', 'shock', 'cut', 'injury', 'medical',
+    // map reading / land navigation (FM 3-25.26)
+    'azimuth', 'bearing', 'coordinate', 'contour', 'terrain', 'elevation',
+    'declination', 'protractor', 'pace count', 'orient', 'latitude',
+    'longitude', 'landmark', 'north', 'resection', 'intersection',
+    'dead reckoning', 'lensatic', 'land nav',
   ];
-  return triggers.some(t => q.includes(t));
+  // short terms that need word boundaries (avoid 'bitmap', 'utmost', 'gridlock')
+  const wordTriggers = /\b(maps?|grids?|mgrs|utm)\b/;
+  return triggers.some(t => q.includes(t)) || wordTriggers.test(q);
 }
 
 class RAGService {
