@@ -1,90 +1,58 @@
 [
-  {
-    "id": "core-azimuth",
-    "group": "core",
-    "message": "How do I shoot an azimuth with a lensatic compass?",
-    "should_fire": true,
-    "expected_manual": "3-25.26",
-    "must_contain": ["azimuth", "compass"]
-  },
-  {
-    "id": "core-grid-coordinate",
-    "group": "core",
-    "message": "How do I read a grid coordinate on a map?",
-    "should_fire": true,
-    "expected_manual": "3-25.26",
-    "must_contain": ["grid", "coordinate"]
-  },
-  {
-    "id": "core-snakebite",
-    "group": "core",
-    "message": "How do I treat a snake bite?",
-    "should_fire": true,
-    "expected_manual": ["3-05.70", "4-25.11", "3-50.21"],
-    "must_contain": ["bite", "venom"]
-  },
-  {
-    "id": "core-bleeding",
-    "group": "core",
-    "message": "How do I stop severe bleeding?",
-    "should_fire": true,
-    "expected_manual": ["4-25.11", "3-05.70", "3-50.21"],
-    "must_contain": ["pressure", "bleeding"]
-  },
-  {
-    "id": "core-hypothermia",
-    "group": "core",
-    "message": "What are the signs of hypothermia?",
-    "should_fire": true,
-    "must_contain": ["hypothermia", "shiver"]
-  },
-  {
-    "id": "vague-north",
-    "group": "vague",
-    "message": "Which way is north?",
-    "should_fire": true,
-    "must_contain": ["north"]
-  },
-  {
-    "id": "vague-water",
-    "group": "vague",
-    "message": "I need water",
-    "should_fire": true,
-    "must_contain": ["water"]
-  },
-  {
-    "id": "followup-snakebite-child",
-    "group": "followup",
-    "previous": "How do I treat a snake bite?",
-    "message": "What about for a child?",
-    "should_fire": true,
-    "must_contain": ["bite"]
-  },
-  {
-    "id": "followup-grid-more",
-    "group": "followup",
-    "previous": "How do I read a grid coordinate on a map?",
-    "message": "Tell me more",
-    "should_fire": true,
-    "expected_manual": "3-25.26",
-    "must_contain": ["grid"]
-  },
-  {
-    "id": "trap-moved-north",
-    "group": "trap",
-    "message": "My friend moved north last year",
-    "should_fire": false
-  },
-  {
-    "id": "trap-cut-paragraph",
-    "group": "trap",
-    "message": "Can you cut this paragraph shorter?",
-    "should_fire": false
-  },
-  {
-    "id": "trap-fire-emoji",
-    "group": "trap",
-    "message": "What is the fire emoji?",
-    "should_fire": false
-  }
+  {"id": "01-bleeding-leg", "group": "core", "message": "how do i stop bad bleeding from my leg", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["tourniquet", "pressure"]},
+  {"id": "02-shock-signs", "group": "core", "message": "signs of shock", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["shock"]},
+  {"id": "03-broken-ankle", "group": "core", "message": "fell and i think my ankle is broken", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["splint"]},
+  {"id": "04-burn", "group": "core", "message": "how to treat a burn", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["burn"]},
+  {"id": "05-not-breathing", "group": "core", "message": "someone isnt breathing what do i do", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["airway"]},
+  {"id": "06-snake-bit-hand", "group": "core", "message": "snake bit my hand", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["snake"]},
+  {"id": "07-purify-stream", "group": "core", "message": "how do i purify water from a stream", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["boil"]},
+  {"id": "08-fire-wet-wood", "group": "core", "message": "how to start a fire with wet wood", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["tinder"]},
+  {"id": "09-tarp-shelter", "group": "core", "message": "build a shelter fast with a tarp", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["shelter"]},
+  {"id": "10-signal-helicopter", "group": "core", "message": "how to signal a helicopter", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["signal"]},
+  {"id": "11-hypothermia-symptoms", "group": "core", "message": "hypothermia symptoms", "expect": "hit", "expected_manual": ["31-70", "3-05.70"], "must_contain": ["hypothermia"]},
+  {"id": "12-frostbite-toes", "group": "core", "message": "frostbite on my toes", "expect": "hit", "expected_manual": "31-70", "must_contain": ["frostbite"]},
+  {"id": "13-north-no-compass", "group": "core", "message": "how to find north without a compass", "expect": "hit", "expected_manual": ["3-05.70", "3-25.26"], "must_contain": ["shadow", "sun"]},
+  {"id": "14-grid-coordinate", "group": "core", "message": "how do i read a grid coordinate", "expect": "hit", "expected_manual": "3-25.26", "must_contain": ["grid"]},
+  {"id": "15-edible-plants", "group": "core", "message": "which plants are safe to eat", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["edibility"]},
+  {"id": "16-heat-exhaustion-stroke", "group": "core", "message": "heat exhaustion vs heat stroke", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["heatstroke", "heat stroke"]},
+  {"id": "17-lost-in-woods", "group": "core", "message": "im lost in the woods what do i do first", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["size up", "undue haste", "vanquish fear", "remember where you are"], "note": "terms are the SURVIVAL acronym wording in FM 3-05.70 chapter 1"},
+  {"id": "18-cross-river", "group": "core", "message": "how to cross a river safely", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["river", "current"]},
+
+  {"id": "19-power-out-food", "group": "modern", "message": "power out 3 days how do i keep food safe", "expect": "gap"},
+  {"id": "20-generator-garage", "group": "modern", "message": "is it ok to run a generator in the garage", "expect": "gap", "safety": true, "note": "carbon monoxide; the manuals mention it only for stoves and shelters"},
+  {"id": "21-nuclear-bomb", "group": "modern", "message": "nuclear bomb went off what do i do", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["fallout", "radiation"], "safety": true, "note": "FM 3-05.70 chapter 23 covers the nuclear environment, so this is a hit, not a gap"},
+  {"id": "22-wildfire-smoke", "group": "modern", "message": "wildfire smoke how do i protect my lungs", "expect": "gap"},
+  {"id": "23-flash-flood", "group": "modern", "message": "flash flood warning what do i do", "expect": "gap", "expected_manual": "3-05.70", "must_contain": ["flood"], "note": "FM 3-05.70 mentions flash floods in 4 chunks, in passing"},
+  {"id": "24-earthquake", "group": "modern", "message": "earthquake just hit what now", "expect": "gap"},
+  {"id": "25-hurricane-supplies", "group": "modern", "message": "hurricane coming what supplies do i need", "expect": "gap", "expected_manual": "3-05.70", "must_contain": ["water"]},
+  {"id": "26-boil-water-notice", "group": "modern", "message": "boil water notice how long do i boil", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["boil"]},
+  {"id": "27-extreme-heat-no-ac", "group": "modern", "message": "extreme heat and no ac", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["heat"]},
+  {"id": "28-no-gps-navigate", "group": "modern", "message": "phone dead no gps how do i navigate", "expect": "hit", "expected_manual": "3-25.26", "must_contain": ["terrain", "map"]},
+  {"id": "29-overdose", "group": "modern", "message": "someone overdosed and wont wake up", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["airway"], "safety": true, "note": "partial coverage: airway and unconscious casualty, nothing on overdose itself"},
+  {"id": "30-water-per-day", "group": "modern", "message": "how much water do i need a day", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["water"]},
+
+  {"id": "31-which-way-north", "group": "vague", "message": "which way is north", "expect": "hit", "expected_manual": ["3-25.26", "3-05.70"], "must_contain": ["north"]},
+  {"id": "32-fire", "group": "vague", "message": "fire?", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["fire"]},
+  {"id": "33-cold", "group": "vague", "message": "cold", "expect": "hit", "expected_manual": "31-70", "must_contain": ["cold"]},
+  {"id": "34-water", "group": "vague", "message": "water", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["water"]},
+  {"id": "35-bleeding", "group": "vague", "message": "bleeding", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["bleeding"]},
+  {"id": "36-help-im-lost", "group": "vague", "message": "help im lost", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["size up", "undue haste", "vanquish fear", "remember where you are"], "note": "terms are the SURVIVAL acronym wording in FM 3-05.70 chapter 1"},
+  {"id": "37-shelter", "group": "vague", "message": "shelter", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["shelter"]},
+  {"id": "38-bite", "group": "vague", "message": "bite", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["bite"]},
+
+  {"id": "39-leanto-raining", "group": "followup", "previous": "how do i build a lean-to", "message": "what if its raining", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["shelter"]},
+  {"id": "40-hypothermia-kid", "group": "followup", "previous": "how do i treat hypothermia", "message": "what about a kid", "expect": "hit", "expected_manual": ["31-70", "4-25.11"], "must_contain": ["hypothermia"]},
+  {"id": "41-purify-no-pot", "group": "followup", "previous": "how to purify water", "message": "i dont have a pot", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["water"]},
+  {"id": "42-compass-more", "group": "followup", "previous": "how to use a compass", "message": "tell me more", "expect": "hit", "expected_manual": "3-25.26", "must_contain": ["compass"]},
+  {"id": "43-snakebite-cut-suck", "group": "followup", "previous": "snake bite treatment", "message": "should i cut it and suck the venom out", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["snake"], "safety": true, "note": "the answer must say don't"},
+  {"id": "44-fire-all-night", "group": "followup", "previous": "how to make a fire", "message": "how do i keep it going all night", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["fire"]},
+
+  {"id": "45-moved-north", "group": "trap", "message": "my friend moved north last year", "expect": "none"},
+  {"id": "46-cut-paragraph", "group": "trap", "message": "cut this paragraph shorter", "expect": "none"},
+  {"id": "47-fire-drill", "group": "trap", "message": "the fire drill at work was so annoying", "expect": "none"},
+  {"id": "48-song-is-fire", "group": "trap", "message": "this song is fire", "expect": "none"},
+  {"id": "49-freezing-budget", "group": "trap", "message": "im freezing my budget for the holidays", "expect": "none"},
+  {"id": "50a-blessing-strength", "group": "trap", "message": "words of blessing, need strength today", "expect": "none", "review": true, "note": "may match will-to-survive sections; review, not a hard fail"},
+  {"id": "50b-blessing-hope", "group": "trap", "message": "words of blessing, need hope", "expect": "none", "review": true, "note": "may match will-to-survive sections; review, not a hard fail"},
+  {"id": "50c-blessing-courage", "group": "trap", "message": "words of blessing, need courage", "expect": "none", "review": true, "note": "may match will-to-survive sections; review, not a hard fail"}
 ]
