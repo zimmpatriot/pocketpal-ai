@@ -45,8 +45,14 @@ export const AssistantTurnFooter: React.FC<AssistantTurnFooterProps> = observer(
   ({message}) => {
     const theme = useTheme();
     const l10n = useContext(L10nContext);
-    const {copyable, timings, interrupted, truncationLikely, completionResult} =
-      message.metadata || {};
+    const {
+      copyable,
+      timings,
+      interrupted,
+      truncationLikely,
+      completionResult,
+      rag,
+    } = message.metadata || {};
 
     if (!timings && !copyable && !interrupted) {
       return null;
@@ -113,6 +119,11 @@ export const AssistantTurnFooter: React.FC<AssistantTurnFooterProps> = observer(
         {timings && fullTimingsString ? (
           <Text style={componentStyles.timing} testID="footer-timing">
             {fullTimingsString}
+          </Text>
+        ) : null}
+        {rag ? (
+          <Text style={componentStyles.timing} testID="footer-rag">
+            📖 {rag}
           </Text>
         ) : null}
         {interrupted ? (

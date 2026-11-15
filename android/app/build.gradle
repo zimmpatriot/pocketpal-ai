@@ -91,7 +91,11 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 143
-        versionName "1.16.1"
+        // S.A.M. test builds carry the commit so they can be told apart on the phone.
+        versionName "1.16.1-sam." + providers.exec {
+            commandLine "git", "rev-parse", "--short", "HEAD"
+            ignoreExitValue = true
+        }.standardOutput.asText.get().trim()
         ndk {
             // Follow -PreactNativeArchitectures so an arm64-only build does
             // not package the x86_64 prebuilt libraries.

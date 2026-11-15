@@ -80,6 +80,22 @@ export function shouldUseRAG(query: string): boolean {
   return stems.test(q) || wordTriggers.test(q);
 }
 
+/** One short line for the reply footer and logcat: what the lookup did. */
+export function describeRAG(result: RAGResult): string {
+  if (!result.fired) return 'none: gate';
+  if (!result.context) return 'none: no-hit';
+  const used = result.chunks.slice(
+    0,
+    result.context.split('\n\n---\n\n').length,
+  );
+  const manuals = Array.from(
+    new Set(used.map(c => c.source.split('_').slice(0, 2).join(' '))),
+  );
+  return `${used.length} excerpts · ${manuals.join(', ')} · top score ${(
+    used[0].score || 0
+  ).toFixed(1)}`;
+}
+
 class RAGService {
   private chunks: RAGChunk[] = [];
   private isLoaded = false;

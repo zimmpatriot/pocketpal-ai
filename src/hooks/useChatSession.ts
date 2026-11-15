@@ -1,4 +1,4 @@
-import {isSamPal, ragService} from '../services/RAGService';
+import {describeRAG, isSamPal, ragService} from '../services/RAGService';
 import React, {useRef} from 'react';
 
 import {toJS, runInAction} from 'mobx';
@@ -48,6 +48,7 @@ const prepareCompletion = async ({
   imageUris,
   message,
   systemMessages,
+  ragStatus,
   contextId,
   assistant,
   conversationIdRef,
@@ -55,6 +56,7 @@ const prepareCompletion = async ({
   l10n,
   currentMessages,
 }: {
+  ragStatus?: string;
   imageUris: string[];
   message: MessageType.PartialText;
   systemMessages: Array<{role: 'system'; content: string}>;
@@ -193,6 +195,7 @@ const prepareCompletion = async ({
       // run_finished (success/maxTurns) or at the abort catch path with
       // partial content.
       multimodal: hasImages,
+      ...(ragStatus ? {rag: ragStatus} : {}),
     },
   };
 
@@ -549,11 +552,16 @@ export const useChatSession = (
         // message, and a changing system block invalidates the prompt cache
         // for the whole history.
         let ragPrefix = '';
+        // Shown under the reply and written to logcat, so a silent skip
+        // (wrong Pal, gate, no hit, error) is visible on the phone.
+        let ragStatus = pal
+          ? `none: pal "${pal.name}"`
+          : 'none: no pal selected';
         if (isSamPal(pal?.name)) {
           try {
-            const {context: manualContext} = await ragService.retrieve(
-              message.text || '',
-            );
+            const ragResult = await ragService.retrieve(message.text || '');
+            const manualContext = ragResult.context;
+            ragStatus = describeRAG(ragResult);
             if (manualContext) {
               ragPrefix =
                 'U.S. Army field manual excerpts (use them when relevant; prefer ' +
@@ -564,8 +572,10 @@ export const useChatSession = (
             }
           } catch (ragError) {
             console.warn('RAG retrieval failed:', ragError);
+            ragStatus = `none: error ${(ragError as Error)?.message || ragError}`;
           }
         }
+        console.log(`[SAM-RAG] ${ragStatus}`);
         // --- End RAG ---
 
     const {cleanCompletionParams, messageInfo} = await prepareCompletion({
@@ -574,6 +584,7 @@ export const useChatSession = (
         ? {...message, text: ragPrefix + message.text}
         : message,
       systemMessages,
+      ragStatus,
       contextId,
       assistant,
       conversationIdRef: conversationIdRef.current,

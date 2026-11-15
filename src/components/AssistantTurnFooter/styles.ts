@@ -7,6 +7,7 @@ export const styles = ({theme}: {theme: Theme}) =>
     container: {
       flexDirection: 'row',
       alignItems: 'center',
+      flexWrap: 'wrap',
       paddingBottom: 12,
       gap: 5,
     },
