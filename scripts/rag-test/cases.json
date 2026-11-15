@@ -54,5 +54,9 @@
   {"id": "49-freezing-budget", "group": "trap", "message": "im freezing my budget for the holidays", "expect": "none"},
   {"id": "50a-blessing-strength", "group": "trap", "message": "words of blessing, need strength today", "expect": "none", "review": true, "note": "may match will-to-survive sections; review, not a hard fail"},
   {"id": "50b-blessing-hope", "group": "trap", "message": "words of blessing, need hope", "expect": "none", "review": true, "note": "may match will-to-survive sections; review, not a hard fail"},
-  {"id": "50c-blessing-courage", "group": "trap", "message": "words of blessing, need courage", "expect": "none", "review": true, "note": "may match will-to-survive sections; review, not a hard fail"}
+  {"id": "50c-blessing-courage", "group": "trap", "message": "words of blessing, need courage", "expect": "none", "review": true, "note": "may match will-to-survive sections; review, not a hard fail"},
+  {"id": "50d-blessing-wisdom", "group": "trap", "message": "words of blessing, need wisdom", "expect": "none", "review": true, "note": "may match will-to-survive sections; review, not a hard fail"},
+  {"id": "50e-blessing-peace", "group": "trap", "message": "words of blessing, need peace", "expect": "none", "review": true, "note": "may match will-to-survive sections; review, not a hard fail"},
+  {"id": "50f-blessing-comfort", "group": "trap", "message": "words of blessing, need comfort", "expect": "none", "note": "may match cold-weather clothing or shelter text (\"comfort\"); likely false trigger"},
+  {"id": "50g-blessing-guidance", "group": "trap", "message": "words of blessing, need guidance", "expect": "none", "note": "may match navigation or map text (\"guidance\"); likely false trigger"}
 ]
