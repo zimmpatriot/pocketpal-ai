@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="512" height="512">
+  <!-- Flattened full icon (background + foreground). Use to render the legacy
+       PNG mipmaps (48/72/96/144/192 px) and a 512 px preview. -->
+  <rect width="108" height="108" fill="#E8590C"/>
+  <polygon points="54,22 62,46 86,54 62,62 54,86 46,62 22,54 46,46" fill="#1B2328"/>
+  <polygon points="54,22 62,46 54,54 46,46" fill="#FFFFFF"/>
+  <circle cx="54" cy="54" r="4" fill="#E8590C"/>
+</svg>

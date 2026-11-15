@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="108" height="108">
+  <!-- Themed-icon (Android 13+) layer: single color, used as an alpha mask.
+       The north point is separated by a small gap so it still reads as "north". -->
+  <polygon points="54,54 62,46 86,54 62,62 54,86 46,62 22,54 46,46" fill="#000000"/>
+  <polygon points="54,22 60.5,44.5 54,50.5 47.5,44.5" fill="#000000"/>
+</svg>

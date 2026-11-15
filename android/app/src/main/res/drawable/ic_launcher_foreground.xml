@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- From design/sam-icon/ic_sam_foreground.svg -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path android:fillColor="#1B2328" android:pathData="M54,22L62,46L86,54L62,62L54,86L46,62L22,54L46,46Z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M54,22L62,46L54,54L46,46Z" />
+    <path android:fillColor="#E8590C" android:pathData="M50,54a4,4 0 1,0 8,0a4,4 0 1,0 -8,0Z" />
+</vector>
