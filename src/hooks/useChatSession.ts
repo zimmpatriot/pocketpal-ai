@@ -1,4 +1,4 @@
-import {isSamPal, ragService, shouldUseRAG} from '../services/RAGService';
+import {isSamPal, ragService} from '../services/RAGService';
 import React, {useRef} from 'react';
 
 import {toJS, runInAction} from 'mobx';
@@ -549,11 +549,11 @@ export const useChatSession = (
         // message, and a changing system block invalidates the prompt cache
         // for the whole history.
         let ragPrefix = '';
-        if (isSamPal(pal?.name) && shouldUseRAG(message.text || '')) {
+        if (isSamPal(pal?.name)) {
           try {
-            await ragService.load();
-            const relevantChunks = ragService.search(message.text || '', 4);
-            const manualContext = ragService.formatContext(relevantChunks);
+            const {context: manualContext} = await ragService.retrieve(
+              message.text || '',
+            );
             if (manualContext) {
               ragPrefix =
                 'U.S. Army field manual excerpts (use them when relevant; prefer ' +

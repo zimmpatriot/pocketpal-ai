@@ -1,0 +1,90 @@
+[
+  {
+    "id": "core-azimuth",
+    "group": "core",
+    "message": "How do I shoot an azimuth with a lensatic compass?",
+    "should_fire": true,
+    "expected_manual": "3-25.26",
+    "must_contain": ["azimuth", "compass"]
+  },
+  {
+    "id": "core-grid-coordinate",
+    "group": "core",
+    "message": "How do I read a grid coordinate on a map?",
+    "should_fire": true,
+    "expected_manual": "3-25.26",
+    "must_contain": ["grid", "coordinate"]
+  },
+  {
+    "id": "core-snakebite",
+    "group": "core",
+    "message": "How do I treat a snake bite?",
+    "should_fire": true,
+    "expected_manual": ["3-05.70", "4-25.11", "3-50.21"],
+    "must_contain": ["bite", "venom"]
+  },
+  {
+    "id": "core-bleeding",
+    "group": "core",
+    "message": "How do I stop severe bleeding?",
+    "should_fire": true,
+    "expected_manual": ["4-25.11", "3-05.70", "3-50.21"],
+    "must_contain": ["pressure", "bleeding"]
+  },
+  {
+    "id": "core-hypothermia",
+    "group": "core",
+    "message": "What are the signs of hypothermia?",
+    "should_fire": true,
+    "must_contain": ["hypothermia", "shiver"]
+  },
+  {
+    "id": "vague-north",
+    "group": "vague",
+    "message": "Which way is north?",
+    "should_fire": true,
+    "must_contain": ["north"]
+  },
+  {
+    "id": "vague-water",
+    "group": "vague",
+    "message": "I need water",
+    "should_fire": true,
+    "must_contain": ["water"]
+  },
+  {
+    "id": "followup-snakebite-child",
+    "group": "followup",
+    "previous": "How do I treat a snake bite?",
+    "message": "What about for a child?",
+    "should_fire": true,
+    "must_contain": ["bite"]
+  },
+  {
+    "id": "followup-grid-more",
+    "group": "followup",
+    "previous": "How do I read a grid coordinate on a map?",
+    "message": "Tell me more",
+    "should_fire": true,
+    "expected_manual": "3-25.26",
+    "must_contain": ["grid"]
+  },
+  {
+    "id": "trap-moved-north",
+    "group": "trap",
+    "message": "My friend moved north last year",
+    "should_fire": false
+  },
+  {
+    "id": "trap-cut-paragraph",
+    "group": "trap",
+    "message": "Can you cut this paragraph shorter?",
+    "should_fire": false
+  },
+  {
+    "id": "trap-fire-emoji",
+    "group": "trap",
+    "message": "What is the fire emoji?",
+    "should_fire": false
+  }
+]

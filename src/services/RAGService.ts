@@ -7,6 +7,15 @@ export interface RAGChunk {
   score?: number;
 }
 
+export interface RAGResult {
+  /** the keyword gate judged the message survival-related */
+  fired: boolean;
+  /** chunks that passed scoring, best first */
+  chunks: RAGChunk[];
+  /** the text injected into the prompt; '' when nothing is injected */
+  context: string;
+}
+
 const STOPWORDS = new Set([
   'the', 'and', 'for', 'with', 'that', 'this', 'from', 'have', 'what',
   'how', 'can', 'you', 'are', 'was', 'were', 'will', 'would', 'could',
@@ -142,6 +151,21 @@ class RAGService {
       .sort((a, b) => b[1] - a[1])
       .slice(0, topK)
       .map(([i, s]) => ({...this.chunks[i], score: s}));
+  }
+
+  /**
+   * The whole lookup for one message: gate, search, format. The chat hook and
+   * scripts/rag-test both call this, so the test harness measures exactly
+   * what the app does. `previous` is the prior user message; it is not used
+   * yet and is here for follow-up handling.
+   */
+  async retrieve(message: string, _previous?: string): Promise<RAGResult> {
+    if (!shouldUseRAG(message)) {
+      return {fired: false, chunks: [], context: ''};
+    }
+    await this.load();
+    const chunks = this.search(message, 4);
+    return {fired: true, chunks, context: this.formatContext(chunks)};
   }
 
   /** Keep context short so we don't blow the model window. */
