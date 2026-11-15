@@ -1,4 +1,4 @@
-import {ragService, shouldUseRAG} from '../services/RAGService';
+import {isSamPal, ragService, shouldUseRAG} from '../services/RAGService';
 import React, {useRef} from 'react';
 
 import {toJS, runInAction} from 'mobx';
@@ -544,20 +544,23 @@ export const useChatSession = (
       model: modelStore.activeModel,
     });
     // --- RAG (Army manuals) — only for technical / survival questions ---
-        if (shouldUseRAG(message.text || '')) {
+        // Excerpts ride in the user turn, not a second system message: some
+        // chat templates (Gemma, Mistral) reject a non-leading system
+        // message, and a changing system block invalidates the prompt cache
+        // for the whole history.
+        let ragPrefix = '';
+        if (isSamPal(pal?.name) && shouldUseRAG(message.text || '')) {
           try {
             await ragService.load();
             const relevantChunks = ragService.search(message.text || '', 4);
             const manualContext = ragService.formatContext(relevantChunks);
             if (manualContext) {
-              systemMessages.push({
-                role: 'system',
-                content:
-                  'You are answering with support from U.S. Army field manual excerpts. ' +
-                  'Use them when relevant. Prefer practical, clear steps. ' +
-                  'If the excerpts do not cover the question, say so and give general best practice.\n\n' +
-                  manualContext,
-              });
+              ragPrefix =
+                'U.S. Army field manual excerpts (use them when relevant; prefer ' +
+                'practical, clear steps; if they do not cover the question, say so ' +
+                'and give general best practice):\n\n' +
+                manualContext +
+                '\n\nQuestion: ';
             }
           } catch (ragError) {
             console.warn('RAG retrieval failed:', ragError);
@@ -567,7 +570,9 @@ export const useChatSession = (
 
     const {cleanCompletionParams, messageInfo} = await prepareCompletion({
       imageUris: imageUris || [],
-      message,
+      message: ragPrefix
+        ? {...message, text: ragPrefix + message.text}
+        : message,
       systemMessages,
       contextId,
       assistant,

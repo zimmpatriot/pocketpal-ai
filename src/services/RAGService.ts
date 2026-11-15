@@ -11,7 +11,41 @@ const STOPWORDS = new Set([
   'the', 'and', 'for', 'with', 'that', 'this', 'from', 'have', 'what',
   'how', 'can', 'you', 'are', 'was', 'were', 'will', 'would', 'could',
   'should', 'about', 'into', 'when', 'where', 'which', 'your', 'my',
+  'does', 'did', 'not', 'but', 'they', 'them', 'there', 'their', 'has',
+  'had', 'its', 'use', 'get', 'make', 'need', 'want', 'best', 'way', 'any',
+  'some', 'out', 'who', 'why', 'tell', 'give', 'show', 'please', 'like',
+  'just', 'been', 'than', 'then', 'also', 'one', 'all', 'if', 'is', 'it',
+  'in', 'on', 'of', 'to', 'do', 'me', 'an', 'be', 'or', 'as', 'at', 'by',
+  'we', 'so', 'no', 'up', 'am',
 ]);
+
+/** Very light stemming so "bites"/"bite" and "splinting"/"splint" match. */
+const stem = (w: string): string =>
+  w.length > 4 && w.endsWith('ing')
+    ? w.slice(0, -3)
+    : w.length > 3 && w.endsWith('es')
+    ? w.slice(0, -2)
+    : w.length > 3 && w.endsWith('s') && !w.endsWith('ss')
+    ? w.slice(0, -1)
+    : w;
+
+/** Whole-word tokens: "shoot" no longer matches inside "offshoot". */
+const tokenize = (s: string): string[] =>
+  (s.toLowerCase().match(/[a-z0-9]+/g) || [])
+    .filter(w => w.length > 1 && !STOPWORDS.has(w))
+    .map(stem);
+
+/** Minimum BM25 score for a chunk to be used. Raise to be stricter. */
+const MIN_SCORE = 6;
+
+/**
+ * The manuals are only for the S.A.M. Pal. The Pal is created in-app, so it
+ * is recognised by name: "S.A.M.", "SAM", "S.A.M. - Survival AI Mentor", ...
+ * (but not "Samantha").
+ */
+export function isSamPal(palName?: string | null): boolean {
+  return /\bs\.?a\.?m\b/i.test(palName || '');
+}
 
 /** Only run RAG when the question looks technical / survival-related. */
 export function shouldUseRAG(query: string): boolean {
@@ -31,12 +65,17 @@ export function shouldUseRAG(query: string): boolean {
   ];
   // short terms that need word boundaries (avoid 'bitmap', 'utmost', 'gridlock')
   const wordTriggers = /\b(maps?|grids?|mgrs|utm)\b/;
-  return triggers.some(t => q.includes(t)) || wordTriggers.test(q);
+  // leading word boundary only, so stems ('surviv', 'hypotherm') still match
+  // but 'cut' no longer fires on 'execute' or 'heat' on 'cheat'
+  const stems = new RegExp(`\\b(${triggers.map(t => t.trim()).join('|')})`);
+  return stems.test(q) || wordTriggers.test(q);
 }
 
 class RAGService {
   private chunks: RAGChunk[] = [];
   private isLoaded = false;
+  /** term -> flat postings list [chunkIndex, termFrequency, ...] */
+  private index = new Map<string, number[]>();
 
   async load(): Promise<void> {
     if (this.isLoaded) return;
@@ -46,7 +85,24 @@ class RAGService {
         source: item.source || 'Unknown Manual',
         section: item.section || '',
       }),
-    );
+    )
+      // drop table-of-contents pages (rows of dot leaders)
+      .filter(c => (c.text.match(/\.{5,}/g) || []).length <= 2);
+
+    this.chunks.forEach((chunk, i) => {
+      const tf = new Map<string, number>();
+      for (const w of tokenize(chunk.text)) {
+        tf.set(w, (tf.get(w) || 0) + 1);
+      }
+      tf.forEach((n, w) => {
+        let postings = this.index.get(w);
+        if (!postings) {
+          postings = [];
+          this.index.set(w, postings);
+        }
+        postings.push(i, n);
+      });
+    });
     this.isLoaded = true;
     console.log(`[RAGService] Loaded ${this.chunks.length} chunks`);
   }
@@ -54,36 +110,42 @@ class RAGService {
   search(query: string, topK: number = 4): RAGChunk[] {
     if (!this.isLoaded || this.chunks.length === 0) return [];
 
-    const terms = query
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, ' ')
-      .split(/\s+/)
-      .filter(t => t.length > 2 && !STOPWORDS.has(t));
-
+    const terms = Array.from(new Set(tokenize(query))).filter(w =>
+      this.index.has(w),
+    );
     if (terms.length === 0) return [];
 
-    const scored = this.chunks.map(chunk => {
-      const hay = `${chunk.section} ${chunk.text}`.toLowerCase();
-      let score = 0;
-      for (const term of terms) {
-        if (!hay.includes(term)) continue;
-        // section match is more valuable
-        if (chunk.section.toLowerCase().includes(term)) score += 2;
-        // count occurrences in text (cap so long chunks don't dominate)
-        const matches = hay.split(term).length - 1;
-        score += Math.min(matches, 3);
+    // BM25 without length normalisation (chunks are all ~600 chars).
+    const N = this.chunks.length;
+    const k1 = 1.2;
+    const scores = new Map<number, number>();
+    const hits = new Map<number, number>();
+    for (const term of terms) {
+      const postings = this.index.get(term)!;
+      const df = postings.length / 2;
+      const idf = Math.log(1 + (N - df + 0.5) / (df + 0.5));
+      for (let j = 0; j < postings.length; j += 2) {
+        const i = postings[j];
+        const tf = postings[j + 1];
+        scores.set(
+          i,
+          (scores.get(i) || 0) + (idf * tf * (k1 + 1)) / (tf + k1),
+        );
+        hits.set(i, (hits.get(i) || 0) + 1);
       }
-      return {...chunk, score};
-    });
+    }
 
-    return scored
-      .filter(c => (c.score || 0) >= 2)
-      .sort((a, b) => (b.score || 0) - (a.score || 0))
-      .slice(0, topK);
+    // A chunk must match two different query words when the query has two.
+    const need = Math.min(2, terms.length);
+    return Array.from(scores.entries())
+      .filter(([i, s]) => (hits.get(i) || 0) >= need && s >= MIN_SCORE)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, topK)
+      .map(([i, s]) => ({...this.chunks[i], score: s}));
   }
 
   /** Keep context short so we don't blow the model window. */
-  formatContext(chunks: RAGChunk[], maxChars: number = 1800): string {
+  formatContext(chunks: RAGChunk[], maxChars: number = 2300): string {
     if (chunks.length === 0) return '';
 
     const parts: string[] = [];
