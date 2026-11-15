@@ -1,0 +1,412 @@
+{
+  "timestamp": "2026-11-15T04:51:42.878Z",
+  "commit": "d8f1104",
+  "dirty": true,
+  "casesFile": "scripts/rag-test/cases.json",
+  "summary": {
+    "total": {
+      "cases": 12,
+      "passed": 6,
+      "should_fire": 9,
+      "hits": 5,
+      "misses": 4,
+      "should_not_fire": 3,
+      "false_triggers": 2,
+      "chunks": 28,
+      "junk_chunks": 0
+    },
+    "groups": {
+      "core": {
+        "cases": 5,
+        "passed": 5,
+        "should_fire": 5,
+        "hits": 5,
+        "misses": 0,
+        "should_not_fire": 0,
+        "false_triggers": 0,
+        "chunks": 20,
+        "junk_chunks": 0
+      },
+      "vague": {
+        "cases": 2,
+        "passed": 0,
+        "should_fire": 2,
+        "hits": 0,
+        "misses": 2,
+        "should_not_fire": 0,
+        "false_triggers": 0,
+        "chunks": 0,
+        "junk_chunks": 0
+      },
+      "followup": {
+        "cases": 2,
+        "passed": 0,
+        "should_fire": 2,
+        "hits": 0,
+        "misses": 2,
+        "should_not_fire": 0,
+        "false_triggers": 0,
+        "chunks": 0,
+        "junk_chunks": 0
+      },
+      "trap": {
+        "cases": 3,
+        "passed": 1,
+        "should_fire": 0,
+        "hits": 0,
+        "misses": 0,
+        "should_not_fire": 3,
+        "false_triggers": 2,
+        "chunks": 8,
+        "junk_chunks": 0
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "core-azimuth",
+      "group": "core",
+      "message": "How do I shoot an azimuth with a lensatic compass?",
+      "should_fire": true,
+      "fired": true,
+      "injected": true,
+      "pass": true,
+      "reasons": [],
+      "cardNote": "",
+      "junk": 0,
+      "top": [
+        {
+          "manual": "FM_3-25.26_Map_Reading",
+          "score": 20,
+          "junk": false,
+          "preview": "A protractor can be used to determine azimuths when a compass is not available. "
+        },
+        {
+          "manual": "FM_3-25.26_Map_Reading",
+          "score": 17.3,
+          "junk": false,
+          "preview": "en glance down at the dial through the eye lens to read the azimuth (Figure 9-3)"
+        },
+        {
+          "manual": "FM_3-25.26_Map_Reading",
+          "score": 17,
+          "junk": false,
+          "preview": "ully folded down onto the bezel ring. This will lock the floating dial and preve"
+        },
+        {
+          "manual": "FM_3-25.26_Map_Reading",
+          "score": 15.7,
+          "junk": false,
+          "preview": "the azimuth is less than 3200 mils, add 3200 mils, if the azimuth is more than 3"
+        }
+      ]
+    },
+    {
+      "id": "core-grid-coordinate",
+      "group": "core",
+      "message": "How do I read a grid coordinate on a map?",
+      "should_fire": true,
+      "fired": true,
+      "injected": true,
+      "pass": true,
+      "reasons": [],
+      "cardNote": "",
+      "junk": 0,
+      "top": [
+        {
+          "manual": "FM_3-25.26_Map_Reading",
+          "score": 21.4,
+          "junk": false,
+          "preview": "the degree of precision 4-17 FM 3-25.26 to which a point has been located and me"
+        },
+        {
+          "manual": "FM_3-25.26_Map_Reading",
+          "score": 19.8,
+          "junk": false,
+          "preview": "tes of a point on the photograph must be prefixed by the identifying marginal in"
+        },
+        {
+          "manual": "FM_3-25.26_Map_Reading",
+          "score": 19.3,
+          "junk": false,
+          "preview": "side of the map, move UP to the east-west grid line that precedes the desired po"
+        },
+        {
+          "manual": "FM_3-25.26_Map_Reading",
+          "score": 19,
+          "junk": false,
+          "preview": "e Mercator (UTM): Grid zone system with the northing and easting position expres"
+        }
+      ]
+    },
+    {
+      "id": "core-snakebite",
+      "group": "core",
+      "message": "How do I treat a snake bite?",
+      "should_fire": true,
+      "fired": true,
+      "injected": true,
+      "pass": true,
+      "reasons": [],
+      "cardNote": "",
+      "junk": 0,
+      "top": [
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 16.5,
+          "junk": false,
+          "preview": "e body to absorb the toxin quickly. Signs of shock occur within the first 30 min"
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 13,
+          "junk": false,
+          "preview": "r prey. These poisons can cause a very large area of tissue death, leaving a lar"
+        },
+        {
+          "manual": "FM_4-25.11_First_Aid",
+          "score": 12.9,
+          "junk": false,
+          "preview": "of a bite on a finger or toe where there is no room for both fangs, or when the "
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 12.4,
+          "junk": false,
+          "preview": "ther the snake was venomous or nonvenomous. Bites from a nonvenomous snake will "
+        }
+      ]
+    },
+    {
+      "id": "core-bleeding",
+      "group": "core",
+      "message": "How do I stop severe bleeding?",
+      "should_fire": true,
+      "fired": true,
+      "injected": true,
+      "pass": true,
+      "reasons": [],
+      "cardNote": "",
+      "junk": 0,
+      "top": [
+        {
+          "manual": "FM_4-25.11_First_Aid",
+          "score": 12.3,
+          "junk": false,
+          "preview": "on. Because the eye is very sensitive, any injury can be easily aggravated if it"
+        },
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 11.2,
+          "junk": false,
+          "preview": "ints by placing a round stick in the joint, bending the joint over the stick, an"
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 11.2,
+          "junk": false,
+          "preview": "lood that flows through this artery to supply oxygen to the legs. Survival Medic"
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 11,
+          "junk": false,
+          "preview": "to dehydration).  Capabilities (identify local medicinal plants such as cattail"
+        }
+      ]
+    },
+    {
+      "id": "core-hypothermia",
+      "group": "core",
+      "message": "What are the signs of hypothermia?",
+      "should_fire": true,
+      "fired": true,
+      "injected": true,
+      "pass": true,
+      "reasons": [],
+      "cardNote": "",
+      "junk": 0,
+      "top": [
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 10.5,
+          "junk": false,
+          "preview": "come active or shiver. COLD INJURIES FM 3-05.70 15-8 15-22. The best way to deal"
+        },
+        {
+          "manual": "FM_4-25.11_First_Aid",
+          "score": 9.6,
+          "junk": false,
+          "preview": "DEHYDRATION SIMILAR TO HEAT EXHAUSTION 1. KEEP WARM. (REFER TO TABLE 5-1). 2. CA"
+        },
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 7.8,
+          "junk": false,
+          "preview": "luids into the rectal vault. • Maintain airway. • Treat for shock. • Consider us"
+        },
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 7.8,
+          "junk": false,
+          "preview": "rature reaches 35 to 32 degrees C (95 to 90 degrees F), sluggish thinking, irrat"
+        }
+      ]
+    },
+    {
+      "id": "vague-north",
+      "group": "vague",
+      "message": "Which way is north?",
+      "should_fire": true,
+      "fired": true,
+      "injected": false,
+      "pass": false,
+      "reasons": [
+        "no chunk passed scoring"
+      ],
+      "cardNote": "",
+      "junk": 0,
+      "top": []
+    },
+    {
+      "id": "vague-water",
+      "group": "vague",
+      "message": "I need water",
+      "should_fire": true,
+      "fired": true,
+      "injected": false,
+      "pass": false,
+      "reasons": [
+        "no chunk passed scoring"
+      ],
+      "cardNote": "",
+      "junk": 0,
+      "top": []
+    },
+    {
+      "id": "followup-snakebite-child",
+      "group": "followup",
+      "message": "What about for a child?",
+      "previous": "How do I treat a snake bite?",
+      "should_fire": true,
+      "fired": false,
+      "injected": false,
+      "pass": false,
+      "reasons": [
+        "gate did not fire"
+      ],
+      "cardNote": "",
+      "junk": 0,
+      "top": []
+    },
+    {
+      "id": "followup-grid-more",
+      "group": "followup",
+      "message": "Tell me more",
+      "previous": "How do I read a grid coordinate on a map?",
+      "should_fire": true,
+      "fired": false,
+      "injected": false,
+      "pass": false,
+      "reasons": [
+        "gate did not fire"
+      ],
+      "cardNote": "",
+      "junk": 0,
+      "top": []
+    },
+    {
+      "id": "trap-moved-north",
+      "group": "trap",
+      "message": "My friend moved north last year",
+      "should_fire": false,
+      "fired": true,
+      "injected": true,
+      "pass": false,
+      "reasons": [
+        "false trigger"
+      ],
+      "cardNote": "",
+      "junk": 0,
+      "top": [
+        {
+          "manual": "FM_31-70_Cold_Weather",
+          "score": 10,
+          "junk": false,
+          "preview": "ial sources are streams, lakes and ponds, glaciers, fresh-water ice, and last ye"
+        },
+        {
+          "manual": "FM_31-70_Cold_Weather",
+          "score": 10,
+          "junk": false,
+          "preview": "fall freezeup (2) 104 periods are by far the most difficult seasons in which to "
+        },
+        {
+          "manual": "FM_3-25.26_Map_Reading",
+          "score": 9.5,
+          "junk": false,
+          "preview": "ve from its place because the axis of the earth is pointed toward it. The North "
+        },
+        {
+          "manual": "FM_3-25.26_Map_Reading",
+          "score": 9.4,
+          "junk": false,
+          "preview": "e earth, the time of the year, and the time of the night. The night changes with"
+        }
+      ]
+    },
+    {
+      "id": "trap-cut-paragraph",
+      "group": "trap",
+      "message": "Can you cut this paragraph shorter?",
+      "should_fire": false,
+      "fired": true,
+      "injected": true,
+      "pass": false,
+      "reasons": [
+        "false trigger"
+      ],
+      "cardNote": "",
+      "junk": 0,
+      "top": [
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 7.9,
+          "junk": false,
+          "preview": "hhooks, nets, and traps. The paragraphs below discuss several methods to obtain "
+        },
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 6.8,
+          "junk": false,
+          "preview": "e of weighted club. A weight hangs 8 to 10 centimeters (3 to 4 inches) from the "
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 6.8,
+          "junk": false,
+          "preview": "8-14. A sling club is another type of weighted club. A weight hangs 3 to 4 inche"
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 6.8,
+          "junk": false,
+          "preview": "Techniques, Procedures, and Applications. 16 July 2012. PRESCRIBED FORMS Publica"
+        }
+      ]
+    },
+    {
+      "id": "trap-fire-emoji",
+      "group": "trap",
+      "message": "What is the fire emoji?",
+      "should_fire": false,
+      "fired": true,
+      "injected": false,
+      "pass": true,
+      "reasons": [],
+      "cardNote": "",
+      "junk": 0,
+      "top": []
+    }
+  ]
+}
