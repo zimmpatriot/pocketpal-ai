@@ -1,0 +1,1382 @@
+{
+  "timestamp": "2026-11-15T18:54:08.575Z",
+  "commit": "cc49e6b",
+  "dirty": false,
+  "casesFile": "scripts/rag-test/cases.json",
+  "summary": {
+    "total": {
+      "cases": 56,
+      "hit_cases": 38,
+      "hits": 14,
+      "misses": 24,
+      "terms": 0,
+      "none_cases": 12,
+      "false_triggers": 0,
+      "gap_cases": 6,
+      "gap_injected": 1,
+      "review": 1,
+      "excerpts": 62,
+      "junk": 0
+    },
+    "safety": {
+      "cases": 4,
+      "hit_cases": 3,
+      "hits": 0,
+      "misses": 3,
+      "terms": 0,
+      "none_cases": 0,
+      "false_triggers": 0,
+      "gap_cases": 1,
+      "gap_injected": 0,
+      "review": 0,
+      "excerpts": 3,
+      "junk": 0
+    },
+    "groups": {
+      "core": {
+        "cases": 18,
+        "hit_cases": 18,
+        "hits": 11,
+        "misses": 7,
+        "terms": 0,
+        "none_cases": 0,
+        "false_triggers": 0,
+        "gap_cases": 0,
+        "gap_injected": 0,
+        "review": 0,
+        "excerpts": 41,
+        "junk": 0
+      },
+      "modern": {
+        "cases": 12,
+        "hit_cases": 6,
+        "hits": 2,
+        "misses": 4,
+        "terms": 0,
+        "none_cases": 0,
+        "false_triggers": 0,
+        "gap_cases": 6,
+        "gap_injected": 1,
+        "review": 1,
+        "excerpts": 15,
+        "junk": 0
+      },
+      "vague": {
+        "cases": 8,
+        "hit_cases": 8,
+        "hits": 1,
+        "misses": 7,
+        "terms": 0,
+        "none_cases": 0,
+        "false_triggers": 0,
+        "gap_cases": 0,
+        "gap_injected": 0,
+        "review": 0,
+        "excerpts": 3,
+        "junk": 0
+      },
+      "followup": {
+        "cases": 6,
+        "hit_cases": 6,
+        "hits": 0,
+        "misses": 6,
+        "terms": 0,
+        "none_cases": 0,
+        "false_triggers": 0,
+        "gap_cases": 0,
+        "gap_injected": 0,
+        "review": 0,
+        "excerpts": 3,
+        "junk": 0
+      },
+      "trap": {
+        "cases": 12,
+        "hit_cases": 0,
+        "hits": 0,
+        "misses": 0,
+        "terms": 0,
+        "none_cases": 12,
+        "false_triggers": 0,
+        "gap_cases": 0,
+        "gap_injected": 0,
+        "review": 0,
+        "excerpts": 0,
+        "junk": 0
+      }
+    }
+  },
+  "flaggedTerms": [
+    {
+      "id": "16-heat-exhaustion-stroke",
+      "phrase": "heat stroke",
+      "elsewhere": {
+        "FM_3-05.70_Survival": 2
+      }
+    }
+  ],
+  "cases": [
+    {
+      "id": "01-bleeding-leg",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "how do i stop bad bleeding from my leg",
+      "fired": true,
+      "injected": true,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 16,
+          "garbage": false,
+          "match": false,
+          "preview": "lood that flows through this artery to supply oxygen to the legs. Survival Medic"
+        },
+        {
+          "manual": "FM_4-25.11_First_Aid",
+          "score": 13.5,
+          "garbage": false,
+          "match": true,
+          "preview": "tion, preventing shock, and/or bleeding control. All open (or penetrating) wound"
+        },
+        {
+          "manual": "FM_4-25.11_First_Aid",
+          "score": 12.2,
+          "garbage": false,
+          "match": false,
+          "preview": "If a pulse is present and the casualty is breathing, proceed to step (4). (a) If"
+        }
+      ]
+    },
+    {
+      "id": "02-shock-signs",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "signs of shock",
+      "fired": true,
+      "injected": true,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "FM_31-70_Cold_Weather",
+          "score": 11,
+          "garbage": false,
+          "match": false,
+          "preview": "ries, loss of blood, pain, emotional disturbances, or any of many factors. The n"
+        },
+        {
+          "manual": "FM_4-25.11_First_Aid",
+          "score": 10.7,
+          "garbage": false,
+          "match": true,
+          "preview": "for information on applying a dressing to an open chest wound). (e) Open abdomin"
+        },
+        {
+          "manual": "FM_4-25.11_First_Aid",
+          "score": 9.8,
+          "garbage": false,
+          "match": true,
+          "preview": "inned individuals they may have a grayish look to their skin). • Restlessness, n"
+        }
+      ]
+    },
+    {
+      "id": "03-broken-ankle",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "fell and i think my ankle is broken",
+      "fired": false,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "gate did not fire"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "04-burn",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "how to treat a burn",
+      "fired": true,
+      "injected": true,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 9.8,
+          "garbage": false,
+          "match": false,
+          "preview": "s and burns, with sugar being second. Treatment z Apply poultice to affected are"
+        },
+        {
+          "manual": "FM_4-25.11_First_Aid",
+          "score": 9.5,
+          "garbage": false,
+          "match": true,
+          "preview": ". Keep the casualty quiet, place him on his back, treat for shock, and evacuate "
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 9.2,
+          "garbage": false,
+          "match": false,
+          "preview": "t in the mouth and or nose; singed facial hair; or a dry cough. z If there is a "
+        }
+      ]
+    },
+    {
+      "id": "05-not-breathing",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "someone isnt breathing what do i do",
+      "fired": true,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "no chunk passed scoring"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "06-snake-bit-hand",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "snake bit my hand",
+      "fired": true,
+      "injected": true,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "FM_4-25.11_First_Aid",
+          "score": 11.9,
+          "garbage": false,
+          "match": true,
+          "preview": "Bites and Stings TYPES FIRST AID MEASURES SNAKEBITE 1. MOVE CASUALTY AWAY FROM T"
+        },
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 11.6,
+          "garbage": false,
+          "match": false,
+          "preview": "e body to absorb the toxin quickly. Signs of shock occur within the first 30 min"
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 11.6,
+          "garbage": false,
+          "match": false,
+          "preview": "ther the snake was venomous or nonvenomous. Bites from a nonvenomous snake will "
+        }
+      ]
+    },
+    {
+      "id": "07-purify-stream",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "how do i purify water from a stream",
+      "fired": true,
+      "injected": true,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 14.6,
+          "garbage": false,
+          "match": true,
+          "preview": "FM 3-05.70 6-13 Figure 6-9. Belowground Still to Get Potable Water From Polluted"
+        },
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 12.9,
+          "garbage": false,
+          "match": false,
+          "preview": "akes, streams, ponds, rivers, and springs. Water from ponds or lakes may be slig"
+        },
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 11.8,
+          "garbage": false,
+          "match": false,
+          "preview": ". Some of the many sources are vines, roots, palm trees, and condensation. You c"
+        }
+      ]
+    },
+    {
+      "id": "08-fire-wet-wood",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "how to start a fire with wet wood",
+      "fired": true,
+      "injected": true,
+      "status": "FAIL",
+      "reasons": [
+        "no excerpt from 3-05.70"
+      ],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 15.7,
+          "garbage": false,
+          "match": false,
+          "preview": "r needs. When they do, transporting coals from a previous fire with them may be "
+        },
+        {
+          "manual": "FM_31-70_Cold_Weather",
+          "score": 15.4,
+          "garbage": false,
+          "match": false,
+          "preview": "ially where snow and ice add to the problems of securing tinder for starting a f"
+        },
+        {
+          "manual": "FM_31-70_Cold_Weather",
+          "score": 13.6,
+          "garbage": false,
+          "match": false,
+          "preview": "e safe starting of fires. In inclosed areas, gasoline or other high inflammable "
+        }
+      ]
+    },
+    {
+      "id": "09-tarp-shelter",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "build a shelter fast with a tarp",
+      "fired": true,
+      "injected": true,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 14.6,
+          "garbage": false,
+          "match": true,
+          "preview": "try to move out of the area as fast as possible. Travel crosswind or upwind to r"
+        },
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 12.6,
+          "garbage": false,
+          "match": false,
+          "preview": "ice that is crystalline with a bluish cast has little salt in it. At sea Sea Use"
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 12.6,
+          "garbage": false,
+          "match": false,
+          "preview": "ch they come. x Sea ice that is gray in color or opaque is salty. Do not use it "
+        }
+      ]
+    },
+    {
+      "id": "10-signal-helicopter",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "how to signal a helicopter",
+      "fired": true,
+      "injected": true,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 11.4,
+          "garbage": false,
+          "match": true,
+          "preview": "ground out on the water’s surface. • Maintain the handhold until the recovery de"
+        },
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 10,
+          "garbage": false,
+          "match": true,
+          "preview": "ot the time to discuss options; it is the time to act. Many of the techniques us"
+        }
+      ]
+    },
+    {
+      "id": "11-hypothermia-symptoms",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "hypothermia symptoms",
+      "fired": true,
+      "injected": true,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 11.2,
+          "garbage": false,
+          "match": false,
+          "preview": "one of the most dangerous cold injuries personnel can experience. It can occur r"
+        },
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 10.6,
+          "garbage": false,
+          "match": true,
+          "preview": "come active or shiver. COLD INJURIES FM 3-05.70 15-8 15-22. The best way to deal"
+        },
+        {
+          "manual": "FM_4-25.11_First_Aid",
+          "score": 9.7,
+          "garbage": false,
+          "match": false,
+          "preview": "DEHYDRATION SIMILAR TO HEAT EXHAUSTION 1. KEEP WARM. (REFER TO TABLE 5-1). 2. CA"
+        }
+      ]
+    },
+    {
+      "id": "12-frostbite-toes",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "frostbite on my toes",
+      "fired": true,
+      "injected": true,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 13,
+          "garbage": false,
+          "match": false,
+          "preview": "e to your body. • Feet. Move your feet and wiggle your toes inside your boots. 1"
+        },
+        {
+          "manual": "FM_31-70_Cold_Weather",
+          "score": 12.1,
+          "garbage": false,
+          "match": true,
+          "preview": "face, fingers, and toes should be exercised from time to time to keep them warm "
+        },
+        {
+          "manual": "FM_31-70_Cold_Weather",
+          "score": 11.2,
+          "garbage": false,
+          "match": true,
+          "preview": "cility immediately. Remember that frostbite of the feet requires a litter evacua"
+        }
+      ]
+    },
+    {
+      "id": "13-north-no-compass",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "how to find north without a compass",
+      "fired": true,
+      "injected": true,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "FM_3-25.26_Map_Reading",
+          "score": 12.5,
+          "garbage": false,
+          "match": false,
+          "preview": "xpedient methods used to find directions when compasses are not available. 9-1. "
+        },
+        {
+          "manual": "FM_3-25.26_Map_Reading",
+          "score": 12.4,
+          "garbage": false,
+          "match": true,
+          "preview": "Shadows then vary from west through south to east. Before noon, south is to the "
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 11,
+          "garbage": false,
+          "match": false,
+          "preview": "edle compass is similar to the method used with the floating dial. The only exce"
+        }
+      ]
+    },
+    {
+      "id": "14-grid-coordinate",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "how do i read a grid coordinate",
+      "fired": true,
+      "injected": true,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "FM_3-25.26_Map_Reading",
+          "score": 17.7,
+          "garbage": false,
+          "match": true,
+          "preview": "the degree of precision 4-17 FM 3-25.26 to which a point has been located and me"
+        },
+        {
+          "manual": "FM_3-25.26_Map_Reading",
+          "score": 17.4,
+          "garbage": false,
+          "match": true,
+          "preview": "tes of a point on the photograph must be prefixed by the identifying marginal in"
+        },
+        {
+          "manual": "FM_3-25.26_Map_Reading",
+          "score": 16.9,
+          "garbage": false,
+          "match": true,
+          "preview": "side of the map, move UP to the east-west grid line that precedes the desired po"
+        }
+      ]
+    },
+    {
+      "id": "15-edible-plants",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "which plants are safe to eat",
+      "fired": true,
+      "injected": true,
+      "status": "FAIL",
+      "reasons": [
+        "no excerpt from the expected manual contains a must_contain phrase"
+      ],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 14.2,
+          "garbage": false,
+          "match": false,
+          "preview": "herbaceous plant of the pea family). z Plants with a milky sap; this is an indic"
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 13.4,
+          "garbage": false,
+          "match": false,
+          "preview": "at what they eat. Most of the time this statement is true, but some animals can "
+        },
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 12.6,
+          "garbage": false,
+          "match": false,
+          "preview": "s. Avoid any weed, WARNING The critical factor in using plants for food is to av"
+        }
+      ]
+    },
+    {
+      "id": "16-heat-exhaustion-stroke",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "heat exhaustion vs heat stroke",
+      "fired": true,
+      "injected": true,
+      "status": "FAIL",
+      "reasons": [
+        "no excerpt from 4-25.11"
+      ],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 12.5,
+          "garbage": false,
+          "match": false,
+          "preview": "symptoms and continue your physical activity, you will have severe muscle cramps"
+        },
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 12,
+          "garbage": false,
+          "match": false,
+          "preview": "othing. Sprinkle him with FM 3-05.70 13-11 water and fan him. Have him drink sma"
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 11.8,
+          "garbage": false,
+          "match": false,
+          "preview": "perienced may be wet skin and extreme thirst. The treatment for heat cramps invo"
+        }
+      ]
+    },
+    {
+      "id": "17-lost-in-woods",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "im lost in the woods what do i do first",
+      "note": "terms are the SURVIVAL acronym wording in FM 3-05.70 chapter 1",
+      "fired": false,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "gate did not fire"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "18-cross-river",
+      "group": "core",
+      "expect": "hit",
+      "safety": false,
+      "message": "how to cross a river safely",
+      "fired": false,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "gate did not fire"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "19-power-out-food",
+      "group": "modern",
+      "expect": "gap",
+      "safety": false,
+      "message": "power out 3 days how do i keep food safe",
+      "fired": true,
+      "injected": true,
+      "status": "REVIEW",
+      "reasons": [
+        "manual text injected for a topic marked as not covered"
+      ],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "FM_4-25.11_First_Aid",
+          "score": 13.2,
+          "garbage": false,
+          "match": true,
+          "preview": "VING SELF- AND BUDDY AID. 4. PRACTICE RAPID RELAXATION TECHNIQUES (FM 22-51). 5."
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 11.8,
+          "garbage": false,
+          "match": true,
+          "preview": "ls of survival—water, food, and shelter—are prioritized according to their estim"
+        },
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 11.6,
+          "garbage": false,
+          "match": true,
+          "preview": "oughts of food. Unless the situation occurs in an arid environment, even water, "
+        }
+      ]
+    },
+    {
+      "id": "20-generator-garage",
+      "group": "modern",
+      "expect": "gap",
+      "safety": true,
+      "message": "is it ok to run a generator in the garage",
+      "note": "carbon monoxide; the manuals mention it only for stoves and shelters",
+      "fired": false,
+      "injected": false,
+      "status": "PASS",
+      "reasons": [
+        "gate did not fire, so no fallback or label would apply"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "21-nuclear-bomb",
+      "group": "modern",
+      "expect": "hit",
+      "safety": true,
+      "message": "nuclear bomb went off what do i do",
+      "note": "FM 3-05.70 chapter 23 covers the nuclear environment, so this is a hit, not a gap",
+      "fired": false,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "gate did not fire"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "22-wildfire-smoke",
+      "group": "modern",
+      "expect": "gap",
+      "safety": false,
+      "message": "wildfire smoke how do i protect my lungs",
+      "fired": false,
+      "injected": false,
+      "status": "PASS",
+      "reasons": [
+        "gate did not fire, so no fallback or label would apply"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "23-flash-flood",
+      "group": "modern",
+      "expect": "gap",
+      "safety": false,
+      "message": "flash flood warning what do i do",
+      "note": "FM 3-05.70 mentions flash floods in 4 chunks, in passing",
+      "fired": false,
+      "injected": false,
+      "status": "PASS",
+      "reasons": [
+        "gate did not fire, so no fallback or label would apply"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "24-earthquake",
+      "group": "modern",
+      "expect": "gap",
+      "safety": false,
+      "message": "earthquake just hit what now",
+      "fired": false,
+      "injected": false,
+      "status": "PASS",
+      "reasons": [
+        "gate did not fire, so no fallback or label would apply"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "25-hurricane-supplies",
+      "group": "modern",
+      "expect": "gap",
+      "safety": false,
+      "message": "hurricane coming what supplies do i need",
+      "fired": false,
+      "injected": false,
+      "status": "PASS",
+      "reasons": [
+        "gate did not fire, so no fallback or label would apply"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "26-boil-water-notice",
+      "group": "modern",
+      "expect": "hit",
+      "safety": false,
+      "message": "boil water notice how long do i boil",
+      "fired": true,
+      "injected": true,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 11.1,
+          "garbage": false,
+          "match": true,
+          "preview": "ealed containers is not available, your next choice, only under emergency condit"
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 9.5,
+          "garbage": false,
+          "match": false,
+          "preview": "wn if it is exposed to high heat. 8-4. Plants that produce sap, mainly conifers "
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 9.3,
+          "garbage": false,
+          "match": false,
+          "preview": "pecially any water near human settlements or in the tropics-will need to be puri"
+        }
+      ]
+    },
+    {
+      "id": "27-extreme-heat-no-ac",
+      "group": "modern",
+      "expect": "hit",
+      "safety": false,
+      "message": "extreme heat and no ac",
+      "fired": true,
+      "injected": true,
+      "status": "FAIL",
+      "reasons": [
+        "no excerpt from 4-25.11"
+      ],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "FM_31-70_Cold_Weather",
+          "score": 10,
+          "garbage": false,
+          "match": false,
+          "preview": "handling weapons during periods of extreme cold. D-2. Factors Affecting Weapons "
+        },
+        {
+          "manual": "FM_31-70_Cold_Weather",
+          "score": 9,
+          "garbage": false,
+          "match": false,
+          "preview": "ls used in combat areas in the north are normally low temperature fuels which wi"
+        },
+        {
+          "manual": "FM_31-70_Cold_Weather",
+          "score": 8.7,
+          "garbage": false,
+          "match": false,
+          "preview": "nd (approximately 15° F to –15° F). The term should be available to the individu"
+        }
+      ]
+    },
+    {
+      "id": "28-no-gps-navigate",
+      "group": "modern",
+      "expect": "hit",
+      "safety": false,
+      "message": "phone dead no gps how do i navigate",
+      "fired": true,
+      "injected": true,
+      "status": "FAIL",
+      "reasons": [
+        "no excerpt from the expected manual contains a must_contain phrase"
+      ],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 13.6,
+          "garbage": false,
+          "match": false,
+          "preview": "GPS has an electronic compass and the ability to store waypoints and enter route"
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 11.6,
+          "garbage": false,
+          "match": false,
+          "preview": "solated person: global positioning system (GPS), dead reckoning, and terrain ass"
+        },
+        {
+          "manual": "FM_3-25.26_Map_Reading",
+          "score": 11,
+          "garbage": false,
+          "match": false,
+          "preview": "ated trees. The most difficult areas to navigate are the ones surrounded by tall"
+        }
+      ]
+    },
+    {
+      "id": "29-overdose",
+      "group": "modern",
+      "expect": "hit",
+      "safety": true,
+      "message": "someone overdosed and wont wake up",
+      "note": "partial coverage: airway and unconscious casualty, nothing on overdose itself",
+      "fired": false,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "gate did not fire"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "30-water-per-day",
+      "group": "modern",
+      "expect": "hit",
+      "safety": false,
+      "message": "how much water do i need a day",
+      "fired": true,
+      "injected": true,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 9.5,
+          "garbage": false,
+          "match": true,
+          "preview": "nonpotable water you may contract diseases or swallow organisms that can harm yo"
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 9.3,
+          "garbage": false,
+          "match": false,
+          "preview": "t 1.4 quarts of water through urine loss, 1.0 quart of water through sweat, and "
+        },
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 9.1,
+          "garbage": false,
+          "match": true,
+          "preview": "ible. Fix your daily water ration after considering the amount of water you have"
+        }
+      ]
+    },
+    {
+      "id": "31-which-way-north",
+      "group": "vague",
+      "expect": "hit",
+      "safety": false,
+      "message": "which way is north",
+      "fired": true,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "no chunk passed scoring"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "32-fire",
+      "group": "vague",
+      "expect": "hit",
+      "safety": false,
+      "message": "fire?",
+      "fired": true,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "no chunk passed scoring"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "33-cold",
+      "group": "vague",
+      "expect": "hit",
+      "safety": false,
+      "message": "cold",
+      "fired": true,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "no chunk passed scoring"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "34-water",
+      "group": "vague",
+      "expect": "hit",
+      "safety": false,
+      "message": "water",
+      "fired": true,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "no chunk passed scoring"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "35-bleeding",
+      "group": "vague",
+      "expect": "hit",
+      "safety": false,
+      "message": "bleeding",
+      "fired": true,
+      "injected": true,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 6.4,
+          "garbage": false,
+          "match": false,
+          "preview": "If not controlled promptly, it can be fatal. • Venous. Venous blood is blood tha"
+        },
+        {
+          "manual": "ATP_3-50.21_Survival_2018",
+          "score": 6.4,
+          "garbage": false,
+          "match": false,
+          "preview": "ive and steadily becoming soaked with blood. z There was prior bleeding, and the"
+        },
+        {
+          "manual": "FM_4-25.11_First_Aid",
+          "score": 6.2,
+          "garbage": false,
+          "match": true,
+          "preview": "eg has been completely amputated may not be bleeding when first discovered, but "
+        }
+      ]
+    },
+    {
+      "id": "36-help-im-lost",
+      "group": "vague",
+      "expect": "hit",
+      "safety": false,
+      "message": "help im lost",
+      "note": "terms are the SURVIVAL acronym wording in FM 3-05.70 chapter 1",
+      "fired": false,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "gate did not fire"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "37-shelter",
+      "group": "vague",
+      "expect": "hit",
+      "safety": false,
+      "message": "shelter",
+      "fired": true,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "no chunk passed scoring"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "38-bite",
+      "group": "vague",
+      "expect": "hit",
+      "safety": false,
+      "message": "bite",
+      "fired": false,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "gate did not fire"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "39-leanto-raining",
+      "group": "followup",
+      "expect": "hit",
+      "safety": false,
+      "message": "what if its raining",
+      "previous": "how do i build a lean-to",
+      "fired": false,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "gate did not fire"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "40-hypothermia-kid",
+      "group": "followup",
+      "expect": "hit",
+      "safety": false,
+      "message": "what about a kid",
+      "previous": "how do i treat hypothermia",
+      "fired": false,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "gate did not fire"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "41-purify-no-pot",
+      "group": "followup",
+      "expect": "hit",
+      "safety": false,
+      "message": "i dont have a pot",
+      "previous": "how to purify water",
+      "fired": false,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "gate did not fire"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "42-compass-more",
+      "group": "followup",
+      "expect": "hit",
+      "safety": false,
+      "message": "tell me more",
+      "previous": "how to use a compass",
+      "fired": false,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "gate did not fire"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "43-snakebite-cut-suck",
+      "group": "followup",
+      "expect": "hit",
+      "safety": true,
+      "message": "should i cut it and suck the venom out",
+      "previous": "snake bite treatment",
+      "note": "the answer must say don't",
+      "fired": true,
+      "injected": true,
+      "status": "FAIL",
+      "reasons": [
+        "no excerpt from the expected manual contains a must_contain phrase"
+      ],
+      "cardNote": "",
+      "top": [
+        {
+          "manual": "FM_4-25.11_First_Aid",
+          "score": 13.5,
+          "garbage": false,
+          "match": false,
+          "preview": "f swelling is present, put the bands on the unswollen part at the edge of the sw"
+        },
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 8.4,
+          "garbage": false,
+          "match": false,
+          "preview": "ession behind first sand dune of dry lakes • Wherever you find damp surface sand"
+        },
+        {
+          "manual": "FM_3-05.70_Survival",
+          "score": 8.4,
+          "garbage": false,
+          "match": false,
+          "preview": "h or squeeze the pulp. CAUTION: Do not eat pulp. Place pulp in mouth, suck out j"
+        }
+      ]
+    },
+    {
+      "id": "44-fire-all-night",
+      "group": "followup",
+      "expect": "hit",
+      "safety": false,
+      "message": "how do i keep it going all night",
+      "previous": "how to make a fire",
+      "fired": false,
+      "injected": false,
+      "status": "FAIL",
+      "reasons": [
+        "gate did not fire"
+      ],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "45-moved-north",
+      "group": "trap",
+      "expect": "none",
+      "safety": false,
+      "message": "my friend moved north last year",
+      "fired": false,
+      "injected": false,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "46-cut-paragraph",
+      "group": "trap",
+      "expect": "none",
+      "safety": false,
+      "message": "cut this paragraph shorter",
+      "fired": false,
+      "injected": false,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "47-fire-drill",
+      "group": "trap",
+      "expect": "none",
+      "safety": false,
+      "message": "the fire drill at work was so annoying",
+      "fired": false,
+      "injected": false,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "48-song-is-fire",
+      "group": "trap",
+      "expect": "none",
+      "safety": false,
+      "message": "this song is fire",
+      "fired": false,
+      "injected": false,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "49-freezing-budget",
+      "group": "trap",
+      "expect": "none",
+      "safety": false,
+      "message": "im freezing my budget for the holidays",
+      "fired": false,
+      "injected": false,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "50a-blessing-strength",
+      "group": "trap",
+      "expect": "none",
+      "safety": false,
+      "message": "words of blessing, need strength today",
+      "note": "may match will-to-survive sections; review, not a hard fail",
+      "fired": false,
+      "injected": false,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "50b-blessing-hope",
+      "group": "trap",
+      "expect": "none",
+      "safety": false,
+      "message": "words of blessing, need hope",
+      "note": "may match will-to-survive sections; review, not a hard fail",
+      "fired": false,
+      "injected": false,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "50c-blessing-courage",
+      "group": "trap",
+      "expect": "none",
+      "safety": false,
+      "message": "words of blessing, need courage",
+      "note": "may match will-to-survive sections; review, not a hard fail",
+      "fired": false,
+      "injected": false,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "50d-blessing-wisdom",
+      "group": "trap",
+      "expect": "none",
+      "safety": false,
+      "message": "words of blessing, need wisdom",
+      "note": "may match will-to-survive sections; review, not a hard fail",
+      "fired": false,
+      "injected": false,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "50e-blessing-peace",
+      "group": "trap",
+      "expect": "none",
+      "safety": false,
+      "message": "words of blessing, need peace",
+      "note": "may match will-to-survive sections; review, not a hard fail",
+      "fired": false,
+      "injected": false,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "50f-blessing-comfort",
+      "group": "trap",
+      "expect": "none",
+      "safety": false,
+      "message": "words of blessing, need comfort",
+      "note": "may match cold-weather clothing or shelter text (\"comfort\"); likely false trigger",
+      "fired": false,
+      "injected": false,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": []
+    },
+    {
+      "id": "50g-blessing-guidance",
+      "group": "trap",
+      "expect": "none",
+      "safety": false,
+      "message": "words of blessing, need guidance",
+      "note": "may match navigation or map text (\"guidance\"); likely false trigger",
+      "fired": false,
+      "injected": false,
+      "status": "PASS",
+      "reasons": [],
+      "cardNote": "",
+      "top": []
+    }
+  ]
+}
