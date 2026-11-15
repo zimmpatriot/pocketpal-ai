@@ -565,8 +565,8 @@ export const useChatSession = (
             if (manualContext) {
               ragPrefix =
                 'U.S. Army field manual excerpts (use them when relevant; prefer ' +
-                'practical, clear steps; if they do not cover the question, say so ' +
-                'and give general best practice):\n\n' +
+                'practical, clear steps). If the excerpts are not relevant to ' +
+                'what the user said, ignore them and reply naturally:\n\n' +
                 manualContext +
                 '\n\nQuestion: ';
             }

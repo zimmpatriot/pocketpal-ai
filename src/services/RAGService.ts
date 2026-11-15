@@ -76,8 +76,31 @@ export function shouldUseRAG(query: string): boolean {
   const wordTriggers = /\b(maps?|grids?|mgrs|utm)\b/;
   // leading word boundary only, so stems ('surviv', 'hypotherm') still match
   // but 'cut' no longer fires on 'execute' or 'heat' on 'cheat'
-  const stems = new RegExp(`\\b(${triggers.map(t => t.trim()).join('|')})`);
-  return stems.test(q) || wordTriggers.test(q);
+  const toStems = (list: string[]) =>
+    new RegExp(`\\b(${list.map(t => t.trim()).join('|')})`);
+  if (!toStems(triggers).test(q) && !wordTriggers.test(q)) {
+    return false;
+  }
+
+  // Everyday words also turn up in small talk ("my friend moved north last
+  // year", "the fire drill at work"). On their own they only count when the
+  // message asks for something, describes a lack, or is a bare topic.
+  const everyday = [
+    'manual', 'army', 'water', 'fire', 'cold', 'signal', 'trap', 'food',
+    'plant', 'heat', 'dressing', 'cut', 'bearing', 'terrain', 'elevation',
+    'orient', 'landmark', 'north', 'intersection',
+  ];
+  const specific = triggers.filter(t => !everyday.includes(t)).concat([
+    'mgrs', 'utm', 'heat ?stroke', 'heat exhaustion', 'heat cramp',
+    'cut (my|his|her|our|their|your)', 'cut (my|him|her|your)self',
+  ]);
+  if (toStems(specific).test(q)) {
+    return true;
+  }
+  const asks =
+    /\?|\b(how|what|whats|which|where|when|why|can|could|should|is it|do i|help|need|no|without|lost|stuck|out of|show|tell|explain|teach|treat|build|find|start|make|i'?m|i am|we'?re|we are|it'?s|it is|there'?s|there is)\b/;
+  const wordCount = (q.match(/[a-z0-9']+/g) || []).length;
+  return asks.test(q) || wordCount <= 3;
 }
 
 /** One short line for the reply footer and logcat: what the lookup did. */
@@ -180,7 +203,7 @@ class RAGService {
       return {fired: false, chunks: [], context: ''};
     }
     await this.load();
-    const chunks = this.search(message, 4);
+    const chunks = this.search(message, 3);
     return {fired: true, chunks, context: this.formatContext(chunks)};
   }
 

@@ -23,6 +23,7 @@ import {
   uiStore,
 } from '../../store';
 import {hasVideoCapability} from '../../utils/pal-capabilities';
+import {isSamPal} from '../../services/RAGService';
 
 import {L10nContext} from '../../utils';
 import {resolveReasoningCapability} from '../../utils/reasoningCapability';
@@ -288,7 +289,15 @@ export const ChatScreen: React.FC = observer(() => {
           onEffortCycle: handleEffortCycle,
         }}
         textInputProps={{
-          placeholder: "Ask S.A.M. anything...",
+          // Only when the S.A.M. Pal is active, so the placeholder shows
+          // whether this chat will use the manuals.
+          placeholder: isSamPal(activePal?.name)
+            ? 'Ask S.A.M. anything...'
+            : !modelStore.engine
+            ? modelStore.isContextLoading
+              ? l10n.chat.loadingModel
+              : l10n.chat.modelNotLoaded
+            : l10n.chat.typeYourMessage,
         }}
       />
       {uiStore.chatWarning && (
