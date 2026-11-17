@@ -5,6 +5,8 @@ export interface RAGChunk {
   source: string;
   section: string;
   score?: number;
+  /** shown in full: the next excerpt carries straight on from this one */
+  whole?: boolean;
 }
 
 export interface RAGResult {
@@ -268,7 +270,18 @@ class RAGService {
     ) {
       return chunks;
     }
-    return [top, {...next, score: top.score}, ...chunks.slice(1, 2)];
+    // Neighbouring chunks repeat about 100 characters. Show the best match in
+    // full and drop the repeat, so the two read as one passage instead of
+    // breaking off mid-sentence ("if thawed and refrozen, will cause…").
+    const head = next.text.slice(0, 40);
+    const at = head.length === 40 ? top.text.lastIndexOf(head) : -1;
+    const repeated =
+      at >= 0 && next.text.startsWith(top.text.slice(at)) ? top.text.length - at : 0;
+    return [
+      {...top, whole: repeated > 0},
+      {...next, text: next.text.slice(repeated).trim(), score: top.score},
+      ...chunks.slice(1, 2),
+    ];
   }
 
   /** Keep context short so we don't blow the model window. */
@@ -279,12 +292,16 @@ class RAGService {
     let total = 0;
 
     for (const chunk of chunks) {
-      const header = chunk.section
-        ? `[${chunk.source} – ${chunk.section}]`
-        : `[${chunk.source}]`;
+      // "chunk_286" is our own numbering; shown to the model it comes back
+      // as a citation ("refer to FM 31-70, chunk 286").
+      const name = chunk.source.replace(/_/g, ' ');
+      const header =
+        chunk.section && !/^chunk_\d+$/.test(chunk.section)
+          ? `[${name} – ${chunk.section}]`
+          : `[${name}]`;
       // trim very long chunks
       const body =
-        chunk.text.length > 500
+        chunk.text.length > 500 && !chunk.whole
           ? chunk.text.slice(0, 500).trim() + '…'
           : chunk.text;
       const block = `${header}\n${body}`;

@@ -1,5 +1,5 @@
 import {describeRAG, isSamPal, ragService} from '../services/RAGService';
-import {withSamRules} from '../services/samRules';
+import {SAM_MAX_TEMPERATURE, withSamRules} from '../services/samRules';
 import React, {useRef} from 'react';
 
 import {toJS, runInAction} from 'mobx';
@@ -622,6 +622,16 @@ export const useChatSession = (
       l10n,
       currentMessages,
     });
+
+    // At the default 0.7 the same question with the same excerpts gave a safe
+    // answer one time and an unsafe one the next. S.A.M. answers should be
+    // repeatable, whatever the chat's temperature setting says.
+    if (isSamPal(pal?.name)) {
+      cleanCompletionParams.temperature = Math.min(
+        cleanCompletionParams.temperature ?? SAM_MAX_TEMPERATURE,
+        SAM_MAX_TEMPERATURE,
+      );
+    }
 
     currentMessageInfo.current = messageInfo;
 
