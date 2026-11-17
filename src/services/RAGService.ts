@@ -14,6 +14,8 @@ export interface RAGResult {
   chunks: RAGChunk[];
   /** the text injected into the prompt; '' when nothing is injected */
   context: string;
+  /** the lookup used the previous user message together with this one */
+  followUp?: boolean;
 }
 
 const STOPWORDS = new Set([
@@ -56,6 +58,10 @@ export function isSamPal(palName?: string | null): boolean {
   return /\bs\.?a\.?m\b/i.test(palName || '');
 }
 
+/** The message asks for something or describes a lack. */
+const ASKS =
+  /\?|\b(how|what|whats|which|where|when|why|can|could|should|is it|do i|help|need|no|without|don'?t have|do not have|lost|stuck|out of|show|tell|explain|teach|treat|build|find|start|make|walk|steps?|guide|apply|applying|i'?m|i am|we'?re|we are|it'?s|it is|there'?s|there is)\b/;
+
 /** Only run RAG when the question looks technical / survival-related. */
 export function shouldUseRAG(query: string): boolean {
   const q = query.toLowerCase();
@@ -92,15 +98,14 @@ export function shouldUseRAG(query: string): boolean {
   ];
   const specific = triggers.filter(t => !everyday.includes(t)).concat([
     'mgrs', 'utm', 'heat ?stroke', 'heat exhaustion', 'heat cramp',
+    'pressure dressing', 'field dressing',
     'cut (my|his|her|our|their|your)', 'cut (my|him|her|your)self',
   ]);
   if (toStems(specific).test(q)) {
     return true;
   }
-  const asks =
-    /\?|\b(how|what|whats|which|where|when|why|can|could|should|is it|do i|help|need|no|without|lost|stuck|out of|show|tell|explain|teach|treat|build|find|start|make|i'?m|i am|we'?re|we are|it'?s|it is|there'?s|there is)\b/;
   const wordCount = (q.match(/[a-z0-9']+/g) || []).length;
-  return asks.test(q) || wordCount <= 3;
+  return ASKS.test(q) || wordCount <= 3;
 }
 
 /** One short line for the reply footer and logcat: what the lookup did. */
@@ -116,7 +121,7 @@ export function describeRAG(result: RAGResult): string {
   );
   return `${used.length} excerpts · ${manuals.join(', ')} · top score ${(
     used[0].score || 0
-  ).toFixed(1)}`;
+  ).toFixed(1)}${result.followUp ? ' · follow-up' : ''}`;
 }
 
 class RAGService {
@@ -195,16 +200,48 @@ class RAGService {
   /**
    * The whole lookup for one message: gate, search, format. The chat hook and
    * scripts/rag-test both call this, so the test harness measures exactly
-   * what the app does. `previous` is the prior user message; it is not used
-   * yet and is here for follow-up handling.
+   * what the app does. `previous` is the prior user message, passed only
+   * when that message got manual excerpts.
    */
-  async retrieve(message: string, _previous?: string): Promise<RAGResult> {
-    if (!shouldUseRAG(message)) {
-      return {fired: false, chunks: [], context: ''};
+  async retrieve(message: string, previous?: string): Promise<RAGResult> {
+    const fired = shouldUseRAG(message);
+    let chunks: RAGChunk[] = [];
+    if (fired) {
+      await this.load();
+      chunks = this.search(message, 3);
     }
-    await this.load();
-    const chunks = this.search(message, 3);
-    return {fired: true, chunks, context: this.formatContext(chunks)};
+    // Nothing found for the message by itself, and it asks for something:
+    // look it up together with the previous message. A message that finds
+    // its own excerpts is a new topic (or complete as it is) and stays alone.
+    if (
+      previous &&
+      chunks.length === 0 &&
+      ASKS.test(message.toLowerCase()) &&
+      shouldUseRAG(`${previous} ${message}`)
+    ) {
+      await this.load();
+      // Excerpts must also mention something from the new message, so
+      // "tell me a joke" does not bring the last topic's excerpts back.
+      const mine = Array.from(new Set(tokenize(message))).filter(w =>
+        this.index.has(w),
+      );
+      const both = this.search(`${previous} ${message}`, 30)
+        .filter(c => {
+          if (mine.length === 0) return true;
+          const words = new Set(tokenize(c.text));
+          return mine.some(w => words.has(w));
+        })
+        .slice(0, 3);
+      if (both.length > 0) {
+        return {
+          fired: true,
+          chunks: both,
+          context: this.formatContext(both),
+          followUp: true,
+        };
+      }
+    }
+    return {fired, chunks, context: this.formatContext(chunks)};
   }
 
   /** Keep context short so we don't blow the model window. */

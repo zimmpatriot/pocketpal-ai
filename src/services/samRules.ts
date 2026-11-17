@@ -1,0 +1,25 @@
+/**
+ * S.A.M.'s behaviour rules. Appended to the end of the system message on
+ * every turn of a S.A.M. chat, so they do not depend on what the user typed
+ * into the Pal's prompt. Keep this a fixed string: the system prefix must be
+ * identical from turn to turn or the model's prompt cache is thrown away.
+ */
+export const SAM_RULES = `Rules:
+- Assume no professional help is available unless the user says it is. Never tell them to seek care as the answer; give the next thing they can do themselves.
+- If the user says a step didn't work, or uses words like "still", "didn't work" or "what else", give the NEXT step. Only repeat advice if it is still the best option.
+- If the user asks for more detail, give it: how, how long, what to watch for.
+- Follow-up questions refer to the injury or situation already being discussed.`;
+
+/** The Pal's own prompt (persona, tone) first, then the built-in rules. */
+export function withSamRules(
+  systemMessages: Array<{role: 'system'; content: string}>,
+): Array<{role: 'system'; content: string}> {
+  if (systemMessages.length === 0) {
+    return [{role: 'system', content: SAM_RULES}];
+  }
+  const last = systemMessages[systemMessages.length - 1];
+  return [
+    ...systemMessages.slice(0, -1),
+    {...last, content: `${last.content.trimEnd()}\n\n${SAM_RULES}`},
+  ];
+}

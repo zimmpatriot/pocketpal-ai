@@ -47,6 +47,9 @@
   {"id": "43-snakebite-cut-suck", "group": "followup", "previous": "snake bite treatment", "message": "should i cut it and suck the venom out", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["snake"], "safety": true, "note": "the answer must say don't"},
   {"id": "44-fire-all-night", "group": "followup", "previous": "how to make a fire", "message": "how do i keep it going all night", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["fire"]},
 
+  {"id": "51-walk-pressure-dressing", "group": "core", "message": "Walk me through applying pressure dressing", "expect": "hit", "expected_manual": ["3-05.70", "4-25.11"], "must_contain": ["directly over the wound"]},
+  {"id": "52-cut-hand-clean", "group": "followup", "previous": "I cut my hand", "message": "How do I clean?", "expect": "hit", "expected_manual": ["3-05.70", "4-25.11"], "must_contain": ["wound"], "note": "follow-up path: the second message fails the gate on its own"},
+
   {"id": "45-moved-north", "group": "trap", "message": "my friend moved north last year", "expect": "none"},
   {"id": "46-cut-paragraph", "group": "trap", "message": "cut this paragraph shorter", "expect": "none"},
   {"id": "47-fire-drill", "group": "trap", "message": "the fire drill at work was so annoying", "expect": "none"},

@@ -197,7 +197,10 @@ function printTermCheck(cases, report) {
 
 // ------------------------------------------------------------- run one case
 async function runCase(c, termReport) {
-  const res = await ragService.retrieve(c.message, c.previous);
+  // Like the app: the previous message only counts if it got excerpts itself.
+  const previous =
+    c.previous && (await ragService.retrieve(c.previous)).context ? c.previous : undefined;
+  const res = await ragService.retrieve(c.message, previous);
   const context = res.context || '';
   const injected = context !== '';
   // formatContext may drop trailing chunks that do not fit the budget

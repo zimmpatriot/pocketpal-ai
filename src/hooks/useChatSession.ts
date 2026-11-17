@@ -1,4 +1,5 @@
 import {describeRAG, isSamPal, ragService} from '../services/RAGService';
+import {withSamRules} from '../services/samRules';
 import React, {useRef} from 'react';
 
 import {toJS, runInAction} from 'mobx';
@@ -542,10 +543,15 @@ export const useChatSession = (
       ? palStore.pals.find(p => p.id === activeSession.activePalId)
       : null;
 
-    const systemMessages = resolveSystemMessages({
+    const palSystemMessages = resolveSystemMessages({
       pal,
       model: modelStore.activeModel,
     });
+    // S.A.M.'s rules are built in, on every turn, whether or not the
+    // manuals are used.
+    const systemMessages = isSamPal(pal?.name)
+      ? withSamRules(palSystemMessages)
+      : palSystemMessages;
     // --- RAG (Army manuals) — only for technical / survival questions ---
         // Excerpts ride in the user turn, not a second system message: some
         // chat templates (Gemma, Mistral) reject a non-leading system
@@ -559,7 +565,31 @@ export const useChatSession = (
           : 'none: no pal selected';
         if (isSamPal(pal?.name)) {
           try {
-            const ragResult = await ragService.retrieve(message.text || '');
+            // Follow-ups ("how do I clean?") only make sense together with
+            // the message before them, and only if that one used the manuals.
+            const newestFirst = [...currentMessages].sort(
+              (a, b) => (b.createdAt || 0) - (a.createdAt || 0),
+            );
+            const lastReply = newestFirst.find(m => m.type === 'assistant_turn');
+            const lastAsked = newestFirst.find(
+              m =>
+                m.type === 'text' &&
+                m.author.id === user.id &&
+                !m.metadata?.system,
+            ) as MessageType.Text | undefined;
+            const lastRag = lastReply?.metadata?.rag;
+            const previous =
+              lastAsked &&
+              lastReply &&
+              (lastReply.createdAt || 0) >= (lastAsked.createdAt || 0) &&
+              typeof lastRag === 'string' &&
+              !lastRag.startsWith('none')
+                ? lastAsked.text
+                : undefined;
+            const ragResult = await ragService.retrieve(
+              message.text || '',
+              previous,
+            );
             const manualContext = ragResult.context;
             ragStatus = describeRAG(ragResult);
             if (manualContext) {
