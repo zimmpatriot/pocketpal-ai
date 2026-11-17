@@ -208,7 +208,7 @@ class RAGService {
     let chunks: RAGChunk[] = [];
     if (fired) {
       await this.load();
-      chunks = this.search(message, 3);
+      chunks = this.withContinuation(this.search(message, 3));
     }
     // Nothing found for the message by itself, and it asks for something:
     // look it up together with the previous message. A message that finds
@@ -242,6 +242,33 @@ class RAGService {
       }
     }
     return {fired, chunks, context: this.formatContext(chunks)};
+  }
+
+  /**
+   * The manuals are cut every 600 characters, so the best match is often a
+   * heading and its first lines while the steps, doses and times sit in the
+   * next chunk ("WATER PURIFICATION ..." / "5 drops of 2 percent tincture of
+   * iodine ..."). Show that next chunk right after the best match, in place
+   * of the third excerpt.
+   */
+  private withContinuation(chunks: RAGChunk[]): RAGChunk[] {
+    if (chunks.length === 0) return chunks;
+    const top = chunks[0];
+    const n = /^chunk_(\d+)$/.exec(top.section);
+    const next = n
+      ? this.chunks.find(
+          c =>
+            c.source === top.source &&
+            c.section === `chunk_${Number(n[1]) + 1}`,
+        )
+      : undefined;
+    if (
+      !next ||
+      chunks.some(c => c.source === next.source && c.section === next.section)
+    ) {
+      return chunks;
+    }
+    return [top, {...next, score: top.score}, ...chunks.slice(1, 2)];
   }
 
   /** Keep context short so we don't blow the model window. */

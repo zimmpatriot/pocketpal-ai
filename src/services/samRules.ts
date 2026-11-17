@@ -4,11 +4,14 @@
  * into the Pal's prompt. Keep this a fixed string: the system prefix must be
  * identical from turn to turn or the model's prompt cache is thrown away.
  */
-export const SAM_RULES = `Rules:
+export const SAM_RULES = `Rules for survival, injury and emergency questions:
 - Assume no professional help is available unless the user says it is. Never tell them to seek care as the answer; give the next thing they can do themselves.
+- For an injury or illness, also name the danger signs that mean it is getting worse.
 - If the user says a step didn't work, or uses words like "still", "didn't work" or "what else", give the NEXT step. Only repeat advice if it is still the best option.
 - If the user asks for more detail, give it: how, how long, what to watch for.
-- Follow-up questions refer to the injury or situation already being discussed.`;
+- Use the doses, amounts and times from the excerpts. Never guess a number.
+- Follow-up questions refer to the injury or situation already being discussed.
+A greeting, small talk or any other request is not an emergency: reply to it normally and briefly, and do not ask about injuries or dangers.`;
 
 /** The Pal's own prompt (persona, tone) first, then the built-in rules. */
 export function withSamRules(

@@ -48,6 +48,7 @@
   {"id": "44-fire-all-night", "group": "followup", "previous": "how to make a fire", "message": "how do i keep it going all night", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["fire"]},
 
   {"id": "51-walk-pressure-dressing", "group": "core", "message": "Walk me through applying pressure dressing", "expect": "hit", "expected_manual": ["3-05.70", "4-25.11"], "must_contain": ["directly over the wound"]},
+  {"id": "53-purify-water-dose", "group": "core", "message": "how to purify water", "expect": "hit", "expected_manual": ["3-05.70", "3-50.21"], "must_contain": ["drops of"], "safety": true, "note": "the dose is in the chunk after the WATER PURIFICATION heading; without it the model invents one"},
   {"id": "52-cut-hand-clean", "group": "followup", "previous": "I cut my hand", "message": "How do I clean?", "expect": "hit", "expected_manual": ["3-05.70", "4-25.11"], "must_contain": ["wound"], "note": "follow-up path: the second message fails the gate on its own"},
 
   {"id": "45-moved-north", "group": "trap", "message": "my friend moved north last year", "expect": "none"},
