@@ -2,7 +2,7 @@
   {"id": "01-bleeding-leg", "group": "core", "message": "how do i stop bad bleeding from my leg", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["tourniquet", "pressure"]},
   {"id": "02-shock-signs", "group": "core", "message": "signs of shock", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["shock"]},
   {"id": "03-broken-ankle", "group": "core", "message": "fell and i think my ankle is broken", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["splint"]},
-  {"id": "04-burn", "group": "core", "message": "how to treat a burn", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["burn"]},
+  {"id": "04-burn", "group": "core", "message": "how to treat a burn", "expect": "hit", "expected_manual": ["4-25.11", "3-50.21"], "must_contain": ["cold water", "cool water", "cool, moist"], "safety": true, "expected_card": "burn", "note": "needs the first-aid step (cool the burn), not just the word burn; phone 14df42f got a cattail poultice"},
   {"id": "05-not-breathing", "group": "core", "message": "someone isnt breathing what do i do", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["airway"]},
   {"id": "06-snake-bit-hand", "group": "core", "message": "snake bit my hand", "expect": "hit", "expected_manual": "4-25.11", "must_contain": ["snake"]},
   {"id": "07-purify-stream", "group": "core", "message": "how do i purify water from a stream", "expect": "hit", "expected_manual": "3-05.70", "must_contain": ["boil"]},

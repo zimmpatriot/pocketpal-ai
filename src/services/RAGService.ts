@@ -210,7 +210,7 @@ class RAGService {
     let chunks: RAGChunk[] = [];
     if (fired) {
       await this.load();
-      chunks = this.withContinuation(this.search(message, 3));
+      chunks = this.withContinuation(this.search(message, 3), message);
     }
     // Nothing found for the message by itself, and it asks for something:
     // look it up together with the previous message. A message that finds
@@ -253,7 +253,7 @@ class RAGService {
    * iodine ..."). Show that next chunk right after the best match, in place
    * of the third excerpt.
    */
-  private withContinuation(chunks: RAGChunk[]): RAGChunk[] {
+  private withContinuation(chunks: RAGChunk[], query: string): RAGChunk[] {
     if (chunks.length === 0) return chunks;
     const top = chunks[0];
     const n = /^chunk_(\d+)$/.exec(top.section);
@@ -277,9 +277,18 @@ class RAGService {
     const at = head.length === 40 ? top.text.lastIndexOf(head) : -1;
     const repeated =
       at >= 0 && next.text.startsWith(top.text.slice(at)) ? top.text.length - at : 0;
+    const rest = next.text.slice(repeated).trim();
+    // What the next chunk adds must still be about something the user asked.
+    // A best match at the end of a section is followed by a new topic
+    // ("cattail poultice for burns" -> "POISONOUS PLANTS"), which would push
+    // out the real third match (cool the burn with cold water).
+    const asked = new Set(tokenize(query));
+    if (!tokenize(rest).some(w => asked.has(w))) {
+      return chunks;
+    }
     return [
       {...top, whole: repeated > 0},
-      {...next, text: next.text.slice(repeated).trim(), score: top.score},
+      {...next, text: rest, score: top.score},
       ...chunks.slice(1, 2),
     ];
   }
