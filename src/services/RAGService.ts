@@ -51,14 +51,8 @@ const tokenize = (s: string): string[] =>
 /** Minimum BM25 score for a chunk to be used. Raise to be stricter. */
 const MIN_SCORE = 6;
 
-/**
- * The manuals are only for the S.A.M. Pal. The Pal is created in-app, so it
- * is recognised by name: "S.A.M.", "SAM", "S.A.M. - Survival AI Mentor", ...
- * (but not "Samantha").
- */
-export function isSamPal(palName?: string | null): boolean {
-  return /\bs\.?a\.?m\b/i.test(palName || '');
-}
+// The manuals are only for the S.A.M. Pal (see samRules.ts).
+export {isSamPal} from './samRules';
 
 /** The message asks for something or describes a lack. */
 const ASKS =

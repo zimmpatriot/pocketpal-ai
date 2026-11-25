@@ -31,6 +31,7 @@ import NativeExternalContentLink from '../specs/NativeExternalContentLink';
 import {palsHubService} from '../services';
 import {registerDefaultTalents} from '../services/talents';
 import {LOOKIE_DEFAULT_MODEL} from './builtinPalModels';
+import {isSamPal, SAM_PAL_NAME, SAM_PAL_PROMPT} from '../services/samRules';
 import {chatTemplates} from '../utils/chat';
 import {defaultCompletionParams} from '../utils/completionSettingsVersions';
 import {parsePalsHubTemplate} from '../utils/palshub-template-parser';
@@ -92,6 +93,9 @@ class PalStore {
 
       // Initialize Pip pal (idempotent — see initializePipPal).
       await this.initializePipPal();
+
+      // S.A.M.: created if missing, so a reinstall never loses it.
+      await this.initializeSamPal();
 
       // Register talent engines (idempotent)
       registerDefaultTalents();
@@ -785,6 +789,36 @@ class PalStore {
       await this.addPal(palData);
     } catch (error) {
       console.error('Error initializing Pip pal:', error);
+    }
+  }
+
+  /**
+   * Create the S.A.M. Pal if no Pal with a S.A.M. name exists (fresh install
+   * or reinstall). An existing one, including any prompt edits, is never
+   * touched.
+   */
+  private async initializeSamPal(): Promise<void> {
+    try {
+      if (this.pals.some(p => isSamPal(p.name))) {
+        return;
+      }
+      await this.addPal({
+        type: 'local',
+        name: SAM_PAL_NAME,
+        description:
+          'Survival AI Mentor: offline survival and first-aid help from U.S. Army field manuals.',
+        systemPrompt: SAM_PAL_PROMPT,
+        isSystemPromptChanged: false,
+        useAIPrompt: false,
+        defaultModel: undefined,
+        parameters: {},
+        parameterSchema: [],
+        capabilities: {},
+        color: ['#3B4A2F', '#E8ECDD'],
+        source: 'local',
+      });
+    } catch (error) {
+      console.error('Error initializing S.A.M. pal:', error);
     }
   }
 }

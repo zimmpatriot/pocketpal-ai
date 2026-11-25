@@ -409,6 +409,62 @@ describe('PalStore', () => {
     });
   });
 
+  describe('S.A.M. seeding', () => {
+    const callInitializeSamPal = async () =>
+      (palStore as any).initializeSamPal();
+
+    beforeEach(() => {
+      runInAction(() => {
+        palStore.pals = [];
+      });
+      (palRepository.createPal as jest.Mock).mockImplementation(
+        async (palData: any) => ({
+          ...palData,
+          id: `sam-${Math.random().toString(36).slice(2, 8)}`,
+          created_at: '2026-11-24T00:00:00Z',
+          updated_at: '2026-11-24T00:00:00Z',
+        }),
+      );
+    });
+
+    it('seeds S.A.M. with the persona prompt when absent', async () => {
+      await callInitializeSamPal();
+      const sam = palStore.pals.find(p => p.name === 'S.A.M.');
+      expect(sam).toBeDefined();
+      expect(sam?.type).toBe('local');
+      expect(sam?.systemPrompt).toContain('You are S.A.M.');
+      expect(palRepository.createPal).toHaveBeenCalledTimes(1);
+    });
+
+    it('is a no-op on re-init', async () => {
+      await callInitializeSamPal();
+      (palRepository.createPal as jest.Mock).mockClear();
+      await callInitializeSamPal();
+      expect(palStore.pals.filter(p => p.name === 'S.A.M.')).toHaveLength(1);
+      expect(palRepository.createPal).not.toHaveBeenCalled();
+    });
+
+    it('keeps a user-made S.A.M. Pal under another S.A.M. name, prompt and all', async () => {
+      const mine: Pal = {
+        ...mockPal,
+        id: 'sam-mine',
+        name: 'S.A.M. - Survival AI Mentor',
+        systemPrompt: 'my own prompt',
+        source: 'local',
+        type: 'local',
+      } as any;
+      runInAction(() => {
+        palStore.pals = [mine];
+      });
+
+      await callInitializeSamPal();
+
+      expect(palStore.pals).toHaveLength(1);
+      expect(palStore.pals[0].systemPrompt).toBe('my own prompt');
+      expect(palRepository.createPal).not.toHaveBeenCalled();
+    });
+  });
+
   describe('Core CRUD Operations', () => {
     describe('createPal', () => {
       it('should create a new pal successfully', async () => {

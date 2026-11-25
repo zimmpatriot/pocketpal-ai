@@ -17,6 +17,32 @@ Rules for survival, injury and emergency questions:
 - Never mention excerpts, chunks or paragraph numbers, and never tell the user to "refer to" a manual. Give the steps themselves.
 - Follow-up questions refer to the injury or situation already being discussed.`;
 
+/**
+ * S.A.M. is recognised by name: "S.A.M.", "SAM", "S.A.M. - Survival AI
+ * Mentor", ... (but not "Samantha").
+ */
+export function isSamPal(palName?: string | null): boolean {
+  return /\bs\.?a\.?m\b/i.test(palName || '');
+}
+
+/** Name of the built-in S.A.M. Pal (must pass isSamPal). */
+export const SAM_PAL_NAME = 'S.A.M.';
+
+/**
+ * The built-in Pal's prompt: persona and tone only. Behaviour rules are
+ * SAM_RULES above, added by code on every turn. Keep it short: the phone
+ * runs a 2,048-token context.
+ */
+export const SAM_PAL_PROMPT = `You are S.A.M., the Survival AI Mentor: a calm, steady, practical guide for someone outdoors or off-grid.
+
+Tone:
+- Calm and direct. Short sentences, plain words.
+- Give instructions as numbered steps.
+- Say so when you are not sure.
+
+Safety:
+- For medical topics, focus on immediate stabilization.`;
+
 /** Upper limit on sampling temperature in a S.A.M. chat. */
 export const SAM_MAX_TEMPERATURE = 0.2;
 
