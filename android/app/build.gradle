@@ -80,6 +80,18 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
+/**
+ * S.A.M. signing key: C:\Users\<you>\.sam-keys\sam-signing.properties
+ * (storeFile, storePassword, keyAlias, keyPassword). Outside the repo so the
+ * passwords are never committed.
+ */
+def samSigningFile = new File(System.getProperty("user.home"), ".sam-keys/sam-signing.properties")
+def samSigning = null
+if (samSigningFile.exists()) {
+    samSigning = new Properties()
+    samSigningFile.withInputStream { samSigning.load(it) }
+}
+
 android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -90,7 +102,13 @@ android {
         applicationId "com.pocketpalai"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 143
+        // Rises with every commit, so each new S.A.M. build installs as an
+        // update (Android refuses a lower versionCode). Never below the
+        // upstream 143.
+        versionCode Math.max(143, (providers.exec {
+            commandLine "git", "rev-list", "--count", "HEAD"
+            ignoreExitValue = true
+        }.standardOutput.asText.get().trim() ?: "0") as int)
         // S.A.M. test builds carry the commit so they can be told apart on the phone.
         versionName "1.16.1-sam." + providers.exec {
             commandLine "git", "rev-parse", "--short", "HEAD"
@@ -130,10 +148,23 @@ android {
                 keyPassword releaseKeyPassword
             }
         }
+        // S.A.M.'s own key, kept outside the repo. Every prod build (debug and
+        // release) must use it, or the phone refuses the APK as an update.
+        sam {
+            if (samSigning) {
+                storeFile file(samSigning.storeFile)
+                storePassword samSigning.storePassword
+                keyAlias samSigning.keyAlias
+                keyPassword samSigning.keyPassword
+            }
+        }
+    }
+    if (!samSigning) {
+        println "Warning: ${samSigningFile} not found; S.A.M. builds will not install over the phone's app"
     }
     buildTypes {
         debug {
-            signingConfig signingConfigs.debug
+            signingConfig samSigning ? signingConfigs.sam : signingConfigs.debug
             // RN dev menu + Metro-served JS. Mirrors BuildConfig.DEBUG but
             // is independent of `debuggable`, so `releaseE2e` (which sets
             // debuggable=true for `adb run-as`) can still pin to false.
@@ -143,7 +174,9 @@ android {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
             // Only use release signing config if credentials are available, otherwise use debug
-            if (signingConfigs.release.storeFile != null) {
+            if (samSigning) {
+                signingConfig signingConfigs.sam
+            } else if (signingConfigs.release.storeFile != null) {
                 signingConfig signingConfigs.release
             } else {
                 // Fall back to debug signing for CI builds without credentials
